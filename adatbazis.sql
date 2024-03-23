@@ -28,9 +28,9 @@ CREATE TABLE file (
 );
 
 CREATE TABLE comment (
-    id INT GENERATED ALWAYS as IDENTITY PRIMARY KEY,
+    id INTEGER GENERATED ALWAYS as IDENTITY PRIMARY KEY,
     author VARCHAR(100) NOT NULL,
-    file_id INT NOT NULL,
+    file_id INTEGER NOT NULL,
     comment_text VARCHAR(1000) NOT NULL,
     createDate DATETIME NOT NULL,
     CONSTRAINT comment_author_fk FOREIGN KEY (author) REFERENCES users (username) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -39,7 +39,7 @@ CREATE TABLE comment (
 
 CREATE TABLE foldershare (
     username VARCHAR(100) NOT NULL,
-    folderid INT NOT NULL,
+    folderid INTEGER NOT NULL,
     CONSTRAINT foldershare_pk PRIMARY KEY (username, folderid),
     CONSTRAINT foldershare_username_fk FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE,
     CONSTRAINT foldershare_folderid_fk FOREIGN KEY (folderid) REFERENCES folder (id) ON DELETE CASCADE
@@ -47,7 +47,7 @@ CREATE TABLE foldershare (
 
 CREATE TABLE fileshare (
     username VARCHAR(100) NOT NULL,
-    fileid INT NOT NULL,
+    fileid INTEGER NOT NULL,
     CONSTRAINT fileshare_pk PRIMARY KEY (username, fileid),
     CONSTRAINT fileshare_username_fk FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE,
     CONSTRAINT fileshare_fileid_fk FOREIGN KEY (fileid) REFERENCES 'file' (id) ON DELETE CASCADE
@@ -55,7 +55,7 @@ CREATE TABLE fileshare (
 
 CREATE TABLE bookmark (
     username VARCHAR(100) NOT NULL,
-    fileid INT NOT NULL,
+    fileid INTEGER NOT NULL,
     CONSTRAINT bookmark_pk PRIMARY KEY (username, fileid),
     CONSTRAINT bookmark_username_fk FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE,
     CONSTRAINT bookmark_fileid_fk FOREIGN KEY (fileid) REFERENCES 'file' (id) ON DELETE CASCADE
@@ -63,8 +63,8 @@ CREATE TABLE bookmark (
 
 CREATE TABLE rating (
     username VARCHAR(100) NOT NULL,
-    fileid INT NOT NULL,
-    rate INT NOT NULL,
+    fileid INTEGER NOT NULL,
+    rate INTEGER NOT NULL,
     CONSTRAINT rating_pk PRIMARY KEY (username, fileid),
     CONSTRAINT rating_username_fk FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE,
     CONSTRAINT rating_fileid_fk FOREIGN KEY (fileid) REFERENCES 'file' (id) ON DELETE CASCADE
