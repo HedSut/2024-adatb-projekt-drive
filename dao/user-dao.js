@@ -5,6 +5,7 @@ class UserDao {
         let results = await con.execute("SELECT * FROM 'users'");
         console.log(results);
         //return results.resultSet;
+        return;
     }
 }
 
