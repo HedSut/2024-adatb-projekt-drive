@@ -1,10 +1,13 @@
-const con = require("./../config/db");
+const oracledb = require("oracledb");
 
 class UserDao {
     async getAllUsers() {
-        let results = await con.execute("SELECT * FROM 'users'");
-        console.log(results);
+        let con = await oracledb.getConnection();
+        let result = await con.execute('SELECT * FROM "bookmark"');
+
+        console.log(result);
         //return results.resultSet;
+        con.close();
         return;
     }
 }
