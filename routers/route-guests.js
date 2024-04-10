@@ -8,8 +8,23 @@ const UserDao = require("../dao/user-dao");
 router.get("/", async (req, res) => {
     await new UserDao().getAllUsers();
 
-    return res.render("guest", {
+    return res.render("index", {
+
     })
 });
+
+router.get("/login", async (req, res) => {
+
+
+    return res.render("login", {
+
+    });
+});
+
+router.post("/loginuser", async (req, res) => {
+    
+
+    return res.redirect("/");
+})
 
 module.exports = router;
