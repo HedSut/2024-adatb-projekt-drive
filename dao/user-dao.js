@@ -19,10 +19,10 @@ class UserDao {
         let con = await oracledb.getConnection();
         let result = await con.execute('SELECT * FROM "users" WHERE username = :user', {user: username});
         con.close();
-        return result.rows;
+        return result.rows[0];
     }
 
-    async changeEmail(username, email) {
+    async updateEmail(username, email) {
         let con = await oracledb.getConnection();
         let result = await con.execute('UPDATE "users" SET email = :email WHERE username = :user', {user: username, email: email});
         con.close();
