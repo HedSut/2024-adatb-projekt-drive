@@ -5,8 +5,8 @@ class FolderDao {
         // TODO: using trigger set visibility to private and add current date when inserted
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'INSERT INTO "folder" ("folder_name", "parent_id", "owner_user") VALUES (:folder_name, :parent_id, :owner_user)',
-            { folder_name: name, parent_id: parentid, owner_user: owner }
+            'INSERT INTO "folder" ("folder_name", "parent_id", "owner_user") VALUES (:foldername, :parentid, :owneruser)',
+            { foldername: name, parentid: parentid, owneruser: owner }
         );
         console.log(result);
         con.commit();
@@ -27,8 +27,8 @@ class FolderDao {
     async getFolder(id) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'SELECT * FROM "folder" WHERE "id" = :folder_id',
-            { folder_id: id }
+            'SELECT * FROM "folder" WHERE "id" = :folderid',
+            { folderid: id }
         );
         con.close();
         return result.rows[0];
@@ -37,8 +37,17 @@ class FolderDao {
     async getChildFolders(id) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'SELECT * FROM "folder" WHERE "parent_id" = :folder_id',
-            { folder_id: id }
+            'SELECT * FROM "folder" WHERE "parent_id" = :folderid',
+            { folderid: id }
+        );
+        con.close();
+        return result.rows;
+    }
+
+    async getPublicFolders() {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "folder" WHERE "visibility" = "public"'
         );
         con.close();
         return result.rows;
@@ -47,8 +56,8 @@ class FolderDao {
     async updateFolderName(id, newname) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'UPDATE "folder" SET "folder_name" = :name WHERE "id" = :folder_id',
-            { name: newname, folder_id: id }
+            'UPDATE "folder" SET "folder_name" = :name WHERE "id" = :folderid',
+            { name: newname, folderid: id }
         );
         console.log(result);
         con.commit();
@@ -59,8 +68,8 @@ class FolderDao {
     async updateFolderVisibility(id, visibility) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'UPDATE "folder" SET "visibility" = :visibility WHERE "id" = :folder_id',
-            { visibility: visibility, folder_id: id }
+            'UPDATE "folder" SET "visibility" = :visibility WHERE "id" = :folderid',
+            { visibility: visibility, folderid: id }
         );
         console.log(result);
         con.commit();
@@ -71,8 +80,8 @@ class FolderDao {
     async deleteFolder(id) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'DELETE FROM "folder" WHERE "id" = :folder_id',
-            { folder_id: id }
+            'DELETE FROM "folder" WHERE "id" = :folderid',
+            { folderid: id }
         );
         console.log(result);
         con.commit();
