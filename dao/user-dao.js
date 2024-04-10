@@ -3,9 +3,14 @@ const oracledb = require("oracledb");
 class UserDao {
     async addUser(username, email, password) {
         let con = await oracledb.getConnection();
-        let result = await con.execute('INSERT INTO "users" VALUES (:user, :email, :pass)', {user: username, email: email, pass: password});
+        let result = await con.execute(
+            'INSERT INTO "users" VALUES (:usr, :email, :passwd)',
+            { usr: username, email: email, passwd: password }
+        );
+        console.log(result);
+        con.commit();
         con.close();
-        return result.rows;
+        return;
     }
 
     async getAllUsers() {
@@ -15,25 +20,38 @@ class UserDao {
         return result.rows;
     }
 
-    async getUsers(username) {
+    async getUser(username) {
         let con = await oracledb.getConnection();
-        let result = await con.execute('SELECT * FROM "users" WHERE username = :user', {user: username});
+        let result = await con.execute(
+            'SELECT * FROM "users" WHERE "username" = :usr',
+            { usr: username }
+        );
         con.close();
         return result.rows[0];
     }
 
     async updateEmail(username, email) {
         let con = await oracledb.getConnection();
-        let result = await con.execute('UPDATE "users" SET email = :email WHERE username = :user', {user: username, email: email});
+        let result = await con.execute(
+            'UPDATE "users" SET "email" = :email WHERE "username" = :usr',
+            { usr: username, email: email }
+        );
+        console.log(result);
+        con.commit();
         con.close();
-        return result.rows;
+        return;
     }
 
     async deleteUser() {
         let con = await oracledb.getConnection();
-        let result = await con.execute('DELETE FROM "users" WHERE username = :user', {user: username});
+        let result = await con.execute(
+            'DELETE FROM "users" WHERE "username" = :usr',
+            { usr: username }
+        );
+        console.log(result);
+        con.commit();
         con.close();
-        return result.rows;
+        return;
     }
 }
 

@@ -17,5 +17,9 @@
     "jsonwebtoken": "^9.0.2",
     "node-oracledb": "^1.0.2",
     "oracledb": "^6.4.0"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4
   }
 }

@@ -6,7 +6,8 @@ const bcrypt = require("bcryptjs");
 const UserDao = require("../dao/user-dao");
 
 router.get("/", async (req, res) => {
-    await new UserDao().getAllUsers();
+    const users = await new UserDao().getAllUsers();
+    console.log(users);
 
     return res.render("index", {
 
