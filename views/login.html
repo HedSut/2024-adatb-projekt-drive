@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar left -->
+    <div class="flex">
+        <!-- Navbar left -->
+        <div class="w-1/5 h-screen bg-white-500 shadow-2xl overflow-hidden">
+            <!-- Index page button -->
+            <div
+                class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                <p class="text-center font-bold text-lg">Főoldal</p>
+            </div>
+
+            <!-- Login button -->
+            <div
+                class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                <p class="text-center font-bold text-lg">Bejelentkezés</p>
+            </div>
+        </div>
+
+        <!-- Content-->
+        <form class="m-auto p-10 w-1/2" action="/loginuser" method="post">
+            <input
+                class="m-5 h-20 placeholder:italic placeholder:text-slate-400 w-full bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                placeholder="Felhasználónév " type="text" name="username" />
+            <input
+                class="m-5 h-20 placeholder:italic placeholder:text-slate-400 w-full bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                placeholder="Jelszó " type="password" name="password" />
+            <button type="submit" name="" id=""
+                class="cursor-pointer m-5 p-2 border border-slate-300  w-full h-20 rounded-md shadow-sm hover:bg-gray-200 transition-colors duration-300">
+                Bejelentkezés
+            </button>
+        </form>
+    </div>
+</body>
+
+</html>
