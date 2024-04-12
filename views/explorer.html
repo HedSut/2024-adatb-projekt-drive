@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css">
+
+  <script src="contextmenu.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+  <div class="flex">
+    <!-- Navbar left -->
+    <div class="w-1/5 h-screen bg-white-500 shadow-2xl overflow-hidden sticky top-0">
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <img src="../public/defaultpfp.png" class="shadow-md h-4/5 rounded-full overflow-clip">
+      </div>
+      <!-- Index page button -->
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <p class="text-center font-bold text-lg">Főoldal</p>
+      </div>
+
+      <!-- Profile page button -->
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <p class="text-center font-bold text-lg">Saját fiók</p>
+      </div>
+
+      <!-- Files page button -->
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <p class="text-center font-bold text-lg">Fájljaim</p>
+      </div>
+
+      <!-- Bookmark page button -->
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <p class="text-center font-bold text-lg">Könyvjelzőim</p>
+      </div>
+      <!-- Login button -->
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <p class="text-center font-bold text-lg">Bejelentkezés</p>
+      </div>
+    </div>
+
+    <!-- Content-->
+    <div class="w-full bg-white-500 p-10 shadow-md">
+      <p class="mb-5 font-bold">
+        /Dokumentumok/Hazi
+      </p>
+
+      <div class="grid grid-cols-5 p-5 shadow-md rounded-md" id="explorer">
+        <div id="folder"
+          class="cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+          <img src="../public/folder.png" class="w-4/5">
+          <p class="">
+            Mappa_nev_1
+          </p>
+        </div>
+        <div id="folder"
+          class="cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+          <img src="../public/folder.png" class="w-4/5">
+          <p class="">
+            Mappa_nev_2
+          </p>
+        </div>
+        <div id="folder"
+          class="cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+          <img src="../public/folder.png" class="w-4/5">
+          <p class="">
+            Mappa_nev_3
+          </p>
+        </div>
+        <div id="folder"
+          class="cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+          <img src="../public/folder.png" class="w-4/5">
+          <p class="">
+            Mappa_nev_4
+          </p>
+        </div>
+        <div id="folder"
+          class="cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+          <img src="../public/folder.png" class="w-4/5">
+          <p class="">
+            Mappa_nev_5
+          </p>
+        </div>
+        <div id="folder"
+          class="cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+          <img src="../public/folder.png" class="w-4/5">
+          <p class="">
+            Mappa_nev_6
+          </p>
+        </div>
+        <div id="folder"
+          class="cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+          <img src="../public/folder.png" class="w-4/5">
+          <p class="">
+            Mappa_nev_7
+          </p>
+        </div>
+        <div id="folder"
+          class="cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+          <img src="../public/folder.png" class="w-4/5">
+          <p class="">
+            Mappa_nev_8
+          </p>
+        </div>
+        <div id="folder"
+          class="cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+          <img src="../public/folder.png" class="w-4/5">
+          <p class="">
+            Mappa_nev_9
+          </p>
+        </div>
+        <div id="folder"
+          class="cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+          <img src="../public/folder.png" class="w-4/5">
+          <p class="">
+            Mappa_nev_10
+          </p>
+        </div>
+      </div>
+
+      <form class="flex flex-col" action="/uploadfile" method="post">
+        <div class="flex w-full">
+          <input
+            type="file"
+            class="w-full cursor-pointer mt-3 mb-3 rounded-md font-bold
+            file:h-10 file:border-none file:bg-gray-700 file:text-white file:font-normal
+            bg-gray-100 hover:bg-gray-300 transition-color duration-300"
+            />
+        </div>
+
+        <button type="submit" name="submit" id="" class="cursor-pointer p-2 rounded-md shadow-md font-bold hover:bg-gray-300 transition-color duration-300">
+          Feltöltés
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <div id="contextMenuExplorer" class="absolute hidden bg-white border border-gray-300 shadow-md rounded-md">
+    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Mappa
+      létrehozása</a>
+  </div>
+
+  <div id="contextMenuFolder" class="absolute hidden bg-white border border-gray-300 shadow-md rounded-md">
+    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Megnyitása</a>
+    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Átnevezés</a>
+    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Törlés</a>
+  </div>
+
+
+</body>
+
+</html>

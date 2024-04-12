@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+  <div class="flex">
+    <!-- Navbar left -->
+    <div class="w-1/5 h-screen bg-white-500 shadow-2xl overflow-hidden sticky top-0">
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <img src="../public/defaultpfp.png" class="shadow-md h-4/5 rounded-full overflow-clip">
+      </div>
+      <!-- Index page button -->
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <p class="text-center font-bold text-lg">Főoldal</p>
+      </div>
+
+      <!-- Profile page button -->
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <p class="text-center font-bold text-lg">Saját fiók</p>
+      </div>
+
+      <!-- Files page button -->
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <p class="text-center font-bold text-lg">Fájljaim</p>
+      </div>
+
+      <!-- Bookmark page button -->
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <p class="text-center font-bold text-lg">Könyvjelzőim</p>
+      </div>
+      <!-- Login button -->
+      <div
+        class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+        <p class="text-center font-bold text-lg">Bejelentkezés</p>
+      </div>
+    </div>
+
+    <!-- Content-->
+    <div class="w-full bg-white-500 p-10">
+      <form class="flex" action="/search" method="post">
+        <input
+          class="md-2 placeholder:italic placeholder:text-slate-400 bg-white w-4/5 border border-slate-300 rounded-l-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+          placeholder="Search for anything " type="text" name="search" />
+        <button type="submit" name="" id="" class="cursor-pointer p-2 border border-slate-300 rounded-r-md shadow-sm">
+          <img src="../public/magnifying-glass.svg" class="h-6">
+        </button>
+      </form>
+
+      <table class="mt-20 table-auto rounded-t-md shadow w-full">
+        <thead class="h-10 rounded-t-md ">
+          <tr>
+            <th class="p-2 text-left">Fájl neve </th>
+            <th class="p-2 text-left">Publikus </th>
+            <th class="p-2 text-left">Tulajdonos </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="bg-gray-400">
+            <td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
+            <td class="p-2 text-left">Malcolm Lockyer</td>
+            <td class="p-2 text-left">1961</td>
+          </tr>
+          <tr class="bg-gray-200">
+            <td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
+            <td class="p-2 text-left">Malcolm Lockyer</td>
+            <td class="p-2 text-left">1961</td>
+          </tr>
+          <tr class="bg-gray-400">
+            <td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
+            <td class="p-2 text-left">Malcolm Lockyer</td>
+            <td class="p-2 text-left">1961</td>
+          </tr>
+          <tr class="bg-gray-200">
+            <td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
+            <td class="p-2 text-left">Malcolm Lockyer</td>
+            <td class="p-2 text-left">1961</td>
+          </tr>
+          <tr class="bg-gray-400">
+            <td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
+            <td class="p-2 text-left">Malcolm Lockyer</td>
+            <td class="p-2 text-left">1961</td>
+          </tr>
+          <tr class="bg-gray-200">
+            <td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
+            <td class="p-2 text-left">Malcolm Lockyer</td>
+            <td class="p-2 text-left">1961</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+
+
+
+  </div>
+
+</body>
+
+</html>

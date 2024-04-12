@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="profilemenu.js"></script>
+</head>
+
+<body>
+    <!-- Navbar left -->
+    <div class="flex">
+        <!-- Navbar left -->
+        <div class="w-1/5 h-screen bg-white-500 shadow-2xl overflow-hidden sticky top-0">
+            <div
+                class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                <img src="../public/defaultpfp.png" class="shadow-md h-4/5 rounded-full overflow-clip">
+            </div>
+            <!-- Index page button -->
+            <div
+                class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                <p class="text-center font-bold text-lg">Főoldal</p>
+            </div>
+
+            <!-- Profile page button -->
+            <div
+                class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                <p class="text-center font-bold text-lg">Saját fiók</p>
+            </div>
+
+            <!-- Files page button -->
+            <div
+                class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                <p class="text-center font-bold text-lg">Fájljaim</p>
+            </div>
+
+            <!-- Bookmark page button -->
+            <div
+                class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                <p class="text-center font-bold text-lg">Könyvjelzőim</p>
+            </div>
+            <!-- Login button -->
+            <div
+                class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                <p class="text-center font-bold text-lg">Bejelentkezés</p>
+            </div>
+        </div>
+
+        <!-- Content-->
+        <div class="flex flex-col w-full items-center">
+            <!-- Sub header -->
+            <div class="flex flex-row justify-center w-full h-20 bg-white-500 overflow-hidden sticky top-0">
+                <div onclick="openMenu('picture')"
+                    class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                    <p class="text-center font-bold text-lg">Profilkép</p>
+                </div>
+                <div onclick="openMenu('email')"
+                    class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                    <p class="text-center font-bold text-lg">Email cím</p>
+                </div>
+                <div onclick="openMenu('password')"
+                    class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                    <p class="text-center font-bold text-lg">Jelszó</p>
+                </div>
+                <div onclick="openMenu('username')"
+                    class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                    <p class="text-center font-bold text-lg">Felhasználónév</p>
+                </div>
+            </div>
+
+            <div id="pictureChangeForm" class="w-4/5">
+                <form class="flex flex-col" action="/uploadfile" method="post">
+                    <label for="profilepic">Tölts fel egy profilképet! </label>
+                    <div class="flex w-full">
+                        <input type="file" name="profilepic" id="profilepic" class="w-full cursor-pointer mt-3 mb-3 rounded-md font-bold
+                        file:h-10 file:border-none file:bg-gray-700 file:text-white file:font-normal
+                        bg-gray-100 hover:bg-gray-300 transition-color duration-300" />
+                    </div>
+
+                    <button type="submit" name="submit"
+                        class="w-full p-2 cursor-pointer font-bold text-lg border border-slate-300 h-20 rounded-md shadow-sm bg-blue-500 hover:bg-blue-700 transition-colors duration-300">
+                        Mentés
+                    </button>
+                </form>
+            </div>
+
+            <div id="emailChangeForm" class="hidden w-4/5">
+                <form class="flex flex-col" action="/changeemail" method="post">
+                    <input
+                        class="w-full m-5 h-20 placeholder:italic placeholder:text-slate-400 bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                        placeholder="Új email cím " type="email" name="email" />
+                    <input
+                        class="w-full m-5 h-20 placeholder:italic placeholder:text-slate-400 bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                        placeholder="Jelszó " type="password" name="password" />
+                    <button type="submit" name="submit"
+                        class="w-full m-5 p-2 cursor-pointer font-bold text-lg border border-slate-300 h-20 rounded-md shadow-sm bg-blue-500 hover:bg-blue-700 transition-colors duration-300">
+                        Mentés
+                    </button>
+                </form>
+            </div>
+
+            <div id="passwordChangeForm" class="hidden w-4/5">
+                <form class="flex flex-col" action="/changepassword" method="post">
+                    <input
+                        class="w-full m-5 h-20 placeholder:italic placeholder:text-slate-400 bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                        placeholder="Régi jelszó " type="password" name="passwordold" />
+                    <input
+                        class="w-full m-5 h-20 placeholder:italic placeholder:text-slate-400 bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                        placeholder="Új jelszó " type="password" name="passwordnew" />
+                    <input
+                        class="w-full m-5 h-20 placeholder:italic placeholder:text-slate-400 bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                        placeholder="Új jelszó újra " type="password" name="passwordnewagain" />
+                    <button type="submit" name="submit"
+                        class="w-full m-5 p-2 cursor-pointer font-bold text-lg border border-slate-300 h-20 rounded-md shadow-sm bg-blue-500 hover:bg-blue-700 transition-colors duration-300">
+                        Mentés
+                    </button>
+                </form>
+            </div>
+
+            <div id="usernameChangeForm" class="hidden w-4/5">
+                <form class="flex flex-col" action="/changeusername" method="post">
+                    <input
+                        class="w-full m-5 h-20 placeholder:italic placeholder:text-slate-400 bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                        placeholder="Új felhasználónév" type="text" name="newusername" />
+                    <input
+                        class="w-full m-5 h-20 placeholder:italic placeholder:text-slate-400 bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                        placeholder="Jelszó" type="password" name="password" />
+                    <button type="submit" name="submit"
+                        class="w-full m-5 p-2 cursor-pointer font-bold text-lg border border-slate-300 h-20 rounded-md shadow-sm bg-blue-500 hover:bg-blue-700 transition-colors duration-300">
+                        Mentés
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
