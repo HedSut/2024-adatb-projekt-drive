@@ -1,7 +1,8 @@
 CREATE TABLE "users" (
     "username" VARCHAR(100) NOT NULL PRIMARY KEY,
     "email" VARCHAR(100) NOT NULL,
-    "password" VARCHAR(256) NOT NULL
+    "password" VARCHAR(256) NOT NULL,
+    "usertype" VARCHAR(10) NOT NULL,
 );
 
 CREATE TABLE "folder" (

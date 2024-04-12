@@ -4,7 +4,7 @@ class UserDao {
     async addUser(username, email, password) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'INSERT INTO "users" VALUES (:usr, :email, :passwd)',
+            'INSERT INTO "users" VALUES (:usr, :email, :passwd, "user")',
             { usr: username, email: email, passwd: password }
         );
         console.log(result);
@@ -25,6 +25,16 @@ class UserDao {
         let result = await con.execute(
             'SELECT * FROM "users" WHERE "username" = :usr',
             { usr: username }
+        );
+        con.close();
+        return result.rows[0];
+    }
+
+    async getUserByEmail(email) {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "users" WHERE "email" = :email',
+            { email: email }
         );
         con.close();
         return result.rows[0];

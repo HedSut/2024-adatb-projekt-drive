@@ -3,7 +3,8 @@ dotenv.config();
 const express = require("express");
 const path = require("path");
 const cparser = require("cookie-parser");
-const routeGuests = require("./routers/route-guests");
+const routeGets = require("./routers/route-gets");
+const routePosts = require("./routers/route-posts");
 const dbinit = require("./config/db");
 
 const PORT = process.env.PORT || 8080;
@@ -13,7 +14,9 @@ app.set("views", path.join(__dirname, "views"));
 app.use(cparser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended: false}));
-app.use(routeGuests);
+app.use(routeGets);
+app.use(routePosts);
+
 
 new dbinit().initdb();
 
