@@ -34,6 +34,16 @@ class FolderDao {
         return result.rows[0];
     }
 
+    async getFolderByParent(id) {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "folder" WHERE "parent_id" = :folderid',
+            { folderid: id }
+        );
+        con.close();
+        return result.rows[0];
+    }
+
     async getChildFolders(id) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
