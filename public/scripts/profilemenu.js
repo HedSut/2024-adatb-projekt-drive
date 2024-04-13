@@ -1,5 +1,4 @@
 function openMenu(menu) {
-    console.log(menu);
     const picture = document.getElementById("pictureChangeForm");
     const email = document.getElementById("emailChangeForm");
     const password = document.getElementById("passwordChangeForm");
