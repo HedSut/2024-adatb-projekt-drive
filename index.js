@@ -1,5 +1,3 @@
-const dotenv = require("dotenv");
-dotenv.config();
 const express = require("express");
 const path = require("path");
 const cparser = require("cookie-parser");
@@ -17,6 +15,32 @@ app.use(express.urlencoded({extended: false}));
 app.use(routeGets);
 app.use(routePosts);
 
+// Útvonalak hozzáadása
+
+app.get('/index', (req, res) => {
+  res.render('index');
+});
+
+app.get('/profile', (req, res) => {
+  res.render('profile');
+});
+
+app.get('/file', (req, res) => {
+  res.render('file');
+});
+
+app.get('/explorer', (req, res) => {
+  res.render('explorer');
+});
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+app.get('/registration', (req, res) => {
+    res.render('registration');
+  });
+
+// További útvonalakat ide lehet hozzáadni...
 
 new dbinit().initdb();
 

@@ -11,43 +11,7 @@
 
 <body>
 	<div class="flex">
-		<!-- Navbar left -->
-		<div class="w-1/5 shadow-2xl h-screen bg-white-500 overflow-hidden sticky top-0">
-			<div
-				class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-				<img src="../public/defaultpfp.png" class="shadow-md h-4/5 rounded-full overflow-clip">
-			</div>
-			<!-- Index page button -->
-			<div
-				class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-				<p class="text-center font-bold text-lg">Főoldal</p>
-			</div>
-
-			<!-- Profile page button -->
-			<div
-				class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-				<p class="text-center font-bold text-lg">Saját fiók</p>
-			</div>
-
-			<!-- Files page button -->
-			<div
-				class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-				<p class="text-center font-bold text-lg">Fájljaim</p>
-			</div>
-
-			<!-- Bookmark page button -->
-			<div
-				class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-				<p class="text-center font-bold text-lg">Könyvjelzőim</p>
-			</div>
-			<!-- Login button -->
-			<div
-				class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-				<p class="text-center font-bold text-lg">Bejelentkezés</p>
-			</div>
-		</div>
-
-
+		<%- include('./navbar.ejs'); %>
 		<!-- Content-->
 		<div class="w-full bg-white-500 p-10">
 			<form class="flex" action="/search" method="post">
@@ -101,14 +65,8 @@
 					</tr>
 				</tbody>
 			</table>
-
 		</div>
-
-
-
-
 	</div>
-
 </body>
 
 </html>
