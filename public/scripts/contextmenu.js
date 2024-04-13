@@ -2,11 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const explorer = document.getElementById("explorer");
     const menuExplorer = document.getElementById("contextMenuExplorer");
 
-    const folder = document.getElementById("folder");
+    const folder = document.querySelectorAll('.folder');
     const menuFolder = document.getElementById("contextMenuFolder");
-
+    
     explorer.addEventListener("contextmenu", function (event) {
-        if (!event.target.closest("#folder")) {
+        if (!event.target.closest(".folder")) {
 
             event.preventDefault(); // Prevent the default context menu
             const x = event.clientX;
@@ -22,18 +22,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    folder.addEventListener("contextmenu", function (event) {
-        event.preventDefault(); // Prevent the default context menu
-        const x = event.clientX;
-        const y = event.clientY;
-        menuFolder.style.left = x + "px";
-        menuFolder.style.top = y + "px";
-        menuFolder.classList.remove("hidden");
-
-        if (!menuExplorer.contains(event.target)) {
-            menuExplorer.classList.add("hidden");
-        }
-    });
+    for(let i = 0; i < folder.length; i++) {
+        console.log(i)
+        console.log(folder.length)
+        folder[i].addEventListener("contextmenu", function (event) {
+            event.preventDefault(); // Prevent the default context menu
+            const x = event.clientX;
+            const y = event.clientY;
+            menuFolder.style.left = x + "px";
+            menuFolder.style.top = y + "px";
+            menuFolder.classList.remove("hidden");
+    
+            if (!menuExplorer.contains(event.target)) {
+                menuExplorer.classList.add("hidden");
+            }
+        });
+    }
 
     document.addEventListener("click", function (event) {
         if (!menuExplorer.contains(event.target)) {
