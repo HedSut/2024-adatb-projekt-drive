@@ -2,7 +2,6 @@ const oracledb = require("oracledb");
 
 class FolderDao {
     async addFolder(name, parentid, owner) {
-        // TODO: using trigger set visibility to private and add current date when inserted
         let con = await oracledb.getConnection();
         let result = await con.execute(
             'INSERT INTO "folder" ("folder_name", "parent_id", "owner_user") VALUES (:foldername, :parentid, :owneruser)',
@@ -29,11 +28,11 @@ class FolderDao {
     async getUserRoot(username) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'SELECT * FROM "folder" WHERE "owner_user" = :usr AND "parent_id" = null',
+            'SELECT * FROM "folder" WHERE "owner_user" = :usr AND "parent_id" IS NULL',
             { usr: username }
         );
         con.close();
-        return result.rows;
+        return result.rows[0];
     }
 
     async getFolder(id) {
