@@ -70,7 +70,7 @@ router.post("/addfolder", async (req, res) => {
     const token = req.cookies.jwt;
     let { folderid } = req.body;
     let username = "";
-
+    console.log(folderid);
     if (token) {
         jwt.verify(token, secret, (err, decodedToken) => {
             username = decodedToken.username;
@@ -78,11 +78,11 @@ router.post("/addfolder", async (req, res) => {
     }
 
     let folderdao = new FolderDao();
-    if (username !== "") {
-        folderdao.addFolder("Új mappa", folderid, username)
-    }
+    //if (username !== "") {
+        folderdao.addFolder("Új mappa", folderid, "tesztelek")
+    //}
 
-    return res.render("explorer?folderID=" + folderid);
+    return res.redirect("/explorer/" + folderid);
 });
 
 module.exports = router;

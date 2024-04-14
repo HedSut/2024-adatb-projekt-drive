@@ -17,7 +17,7 @@ class FolderDao {
     async getUserRoot(username) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'SELECT * FROM "folder" WHERE "owner_user" = :usr AND "parent_id" = null',
+            'SELECT * FROM "folder" WHERE "owner_user" = :usr AND "parent_id" IS NULL',
             { usr: username }
         );
         con.close();
