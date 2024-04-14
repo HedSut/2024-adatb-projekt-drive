@@ -18,43 +18,7 @@
             </p>
             <div class="flex">
                 <div class="w-1/2 rounded-md bg-gray-300">
-                    <script>
-                        const express = require('express');
-                        const fs = require('fs');
-                        const path = require('path');
-                        const app = express();
 
-                        app.get('/showFile', (req, res) => {
-                            const filePath = 'path_to_your_file.jpg'; // vagy txt fájl elérési útja
-                            const fileExtension = path.extname(filePath);
-
-                            // Fájltípus ellenőrzése
-                            if (fileExtension === '.jpg' || fileExtension === '.png') {
-        // Kép esetén
-                            res.send(`
-                                <div class="w-1/2 rounded-md bg-gray-300">
-                            <img src="${filePath}" class="rounded-md">
-                            </div>
-                            `);
-                            } else if (fileExtension === '.txt') {
-                            // Szöveges fájl esetén
-                            fs.readFile(filePath, 'utf8', (err, data) => {
-                            if (err) {
-                                console.error(err);
-                                return res.status(500).send('Hiba történt a fájl olvasása közben.');
-                            }
-
-                            res.send(`
-                                <div class="w-1/2 rounded-md bg-gray-300">
-                            <p class="text-justify p-3">${data}</p>
-                            </div>
-                             `);
-                            });
-                            } else {
-                                res.status(400).send('Nem támogatott fájltípus.');
-                            }
-                        });
-                    </script>
                     <!-- File content, ha kép akkor a felső jelenjen meg, ha szöveges akkor az alsó
                     <img src="https://picsum.photos/1920/1080" class="rounded-md">
                     -->

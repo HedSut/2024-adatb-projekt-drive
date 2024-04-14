@@ -14,6 +14,18 @@ class FolderDao {
         return;
     }
 
+    async addRootFolder(owner) {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'INSERT INTO "folder" ("folder_name", "owner_user") VALUES (:foldername, :owneruser)',
+            { foldername: 'Saját Mappa', owneruser: owner}
+        );
+        console.log(result);
+        con.commit();
+        con.close();
+        return;
+    }
+
     async getUserRoot(username) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
@@ -21,7 +33,7 @@ class FolderDao {
             { usr: username }
         );
         con.close();
-        return result.rows[0];
+        return result.rows;
     }
 
     async getFolder(id) {
@@ -34,21 +46,11 @@ class FolderDao {
         return result.rows[0];
     }
 
-    async getFolderByParent(id) {
+    async getChildFolders(parentid) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
             'SELECT * FROM "folder" WHERE "parent_id" = :folderid',
-            { folderid: id }
-        );
-        con.close();
-        return result.rows[0];
-    }
-
-    async getChildFolders(id) {
-        let con = await oracledb.getConnection();
-        let result = await con.execute(
-            'SELECT * FROM "folder" WHERE "parent_id" = :folderid',
-            { folderid: id }
+            { folderid: parentid }
         );
         con.close();
         return result.rows;

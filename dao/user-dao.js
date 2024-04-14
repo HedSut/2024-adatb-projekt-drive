@@ -52,7 +52,7 @@ class UserDao {
         return;
     }
 
-    async deleteUser() {
+    async deleteUser(username) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
             'DELETE FROM "users" WHERE "username" = :usr',

@@ -10,8 +10,8 @@ CREATE TABLE "folder" (
     "folder_name" VARCHAR(100) NOT NULL,
     "parent_id" INTEGER,
     "owner_user" VARCHAR(100) NOT NULL,
-    "visibility" VARCHAR(20) NOT NULL,
-    "createDate" TIMESTAMP NOT NULL,
+    "visibility" VARCHAR(20) DEFAULT 'private' NOT NULL,
+    "createDate" DATE DEFAULT SYSDATE NOT NULL,
     CONSTRAINT "folder_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "folder" ("id") ON DELETE CASCADE,
     CONSTRAINT "folder_owner_fk" FOREIGN KEY ("owner_user") REFERENCES "users" ("username") ON DELETE CASCADE
 );

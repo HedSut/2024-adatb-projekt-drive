@@ -16,7 +16,7 @@ router.post("/loginuser", async (req, res) => {
         res.cookie("msg", "Nincs ilyen felhasználó!", { httpOnly: true, maxAge: 1000 });
         return res.redirect("/login");
     } else {
-        bcrypt.compare(password, user[3]).then(function (result) {
+        bcrypt.compare(password, user[2]).then(function (result) {
             if (result) {
                 const token = jwt.sign({ username: username }, secret);
                 res.cookie("jwt", token, { httpOnly: true });
@@ -62,14 +62,16 @@ router.post("/registeruser", async (req, res) => {
 
     const hash = await bcrypt.hash(password, 10);
     await new UserDao().addUser(username, email, hash);
+    await new FolderDao().addRootFolder(username);
     res.cookie("msg", "Fiók sikeresen létrehozva!", { httpOnly: true, maxAge: 1000 });
     return res.redirect("/login");
 });
 
+
 router.post("/addfolder", async (req, res) => {
     const token = req.cookies.jwt;
     let { folderid } = req.body;
-    let username = "";
+    let username;
 
     if (token) {
         jwt.verify(token, secret, (err, decodedToken) => {
@@ -77,12 +79,11 @@ router.post("/addfolder", async (req, res) => {
         });
     }
 
-    let folderdao = new FolderDao();
-    if (username !== "") {
-        folderdao.addFolder("Új mappa", folderid, username)
+    if (username) {
+        await new FolderDao().addFolder("Új mappa", folderid, username)
     }
-
-    return res.render("explorer?folderID=" + folderid);
+    res.cookie("msg", "Mappa sikeresen létrehozva!", { httpOnly: true, maxAge: 1000 });
+    return res.redirect("explorer/" + folderid);
 });
 
 module.exports = router;

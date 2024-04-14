@@ -5,9 +5,10 @@
 	</div>
 	<!-- Index page button -->
 	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-		<p class="text-center font-bold text-lg"><a href="/index">Főoldal</a></p>
+		<p class="text-center font-bold text-lg"><a href="/">Főoldal</a></p>
 	</div>
 
+	<? if (username) { ?>
 	<!-- Profile page button -->
 	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
 		<p class="text-center font-bold text-lg"><a href="/profile">Saját fiók</a></p>
@@ -15,17 +16,23 @@
 
 	<!-- Files page button -->
 	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-		<p class="text-center font-bold text-lg"><a href="/file">Fájljaim</a></p>
+		<p class="text-center font-bold text-lg"><a href="/explorer/root">Fájljaim</a></p>
 	</div>
 
 	<!-- Bookmark page button -->
 	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-		<p class="text-center font-bold text-lg"><a href="/explorer">Könyvjelzőim</a></p>
+		<p class="text-center font-bold text-lg"><a href="">Könyvjelzőim</a></p>
 	</div>
+	<? } ?>
 
+	<? if (!username) { ?>
 	<!-- Login button -->
 	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
 		<p class="text-center font-bold text-lg"><a href="/login">Bejelentkezés</a></p>
 	</div>
+	<? } ?>
 
+	<? if (msg) { ?>
+		<p><%=msg%></p>
+	<? } ?>
 </div>
