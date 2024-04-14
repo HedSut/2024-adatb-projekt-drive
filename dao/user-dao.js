@@ -4,7 +4,7 @@ class UserDao {
     async addUser(username, email, password) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'INSERT INTO "users" VALUES (:usr, :email, :passwd, "user")',
+            'INSERT INTO "users" ("username", "email", "password") VALUES (:usr, :email, :passwd)',
             { usr: username, email: email, passwd: password }
         );
         console.log(result);
