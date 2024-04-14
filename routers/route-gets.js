@@ -84,7 +84,6 @@ router.get("/explorer/:id", async (req, res) => {
         })
     }
 
-    username = "tesztelek0";
     if (!username) {
         res.cookie("msg", "Nem vagy bejelentkezve!", { httpOnly: true, maxAge: 1000 });
         return res.redirect("/");
@@ -93,17 +92,13 @@ router.get("/explorer/:id", async (req, res) => {
     let currentFolder;
     console.log(folderid);
     if (folderid == "root") {
-        console.log("root");
         currentFolder = await new FolderDao().getUserRoot(username);
     } else {
-        console.log("nemroot");
         currentFolder = await new FolderDao().getFolder(folderid);
     }
 
     folders = await new FolderDao().getChildFolders(currentFolder[0]);
     files = await new FileDao().getChildrenFiles(currentFolder[0]);
-    //console.log(currentFolder);
-    //console.log(files);
 
 
     return res.render("explorer", { 
