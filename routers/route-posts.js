@@ -16,7 +16,7 @@ router.post("/loginuser", async (req, res) => {
         res.cookie("msg", "Nincs ilyen felhasználó!", { httpOnly: true, maxAge: 1000 });
         return res.redirect("/login");
     } else {
-        bcrypt.compare(password, user.password).then(function (result) {
+        bcrypt.compare(password, user[2]).then(function (result) {
             if (result) {
                 const token = jwt.sign({ username: username }, secret);
                 res.cookie("jwt", token, { httpOnly: true });
@@ -60,7 +60,7 @@ router.post("/registeruser", async (req, res) => {
         return res.redirect("/register");
     }
 
-    const hash = await bcrypt.hash(pswd, 10);
+    const hash = await bcrypt.hash(password, 10);
     await new UserDao().addUser(username, email, hash);
     res.cookie("msg", "Fiók sikeresen létrehozva!", { httpOnly: true, maxAge: 1000 });
     return res.redirect("/login");
