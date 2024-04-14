@@ -18,6 +18,8 @@ router.get("/", async (req, res) => {
         })
     }
 
+    console.log(username);
+
     return res.render("index", {
         msg: msg,
         username: username

@@ -8,7 +8,7 @@
 		<p class="text-center font-bold text-lg"><a href="/">Főoldal</a></p>
 	</div>
 
-	<? if (username) { ?>
+	<% if (username != null) { %>
 	<!-- Profile page button -->
 	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
 		<p class="text-center font-bold text-lg"><a href="/profile">Saját fiók</a></p>
@@ -24,16 +24,16 @@
 	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
 		<p class="text-center font-bold text-lg"><a href="">Könyvjelzőim</a></p>
 	</div>
-	<? } ?>
+	<% } %>
 
-	<? if (!username) { ?>
+	<% if (username == null) { %>
 	<!-- Login button -->
 	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
 		<p class="text-center font-bold text-lg"><a href="/login">Bejelentkezés</a></p>
 	</div>
-	<? } ?>
+	<% } %>
 
-	<? if (msg) { ?>
+	<% if (typeof msg !== 'undefined') { %>
 		<p><%=msg%></p>
-	<? } ?>
+	<% } %>
 </div>

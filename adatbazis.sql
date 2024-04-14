@@ -2,7 +2,7 @@ CREATE TABLE "users" (
     "username" VARCHAR(100) NOT NULL PRIMARY KEY,
     "email" VARCHAR(100) NOT NULL,
     "password" VARCHAR(256) NOT NULL,
-    "usertype" VARCHAR(10) NOT NULL,
+    "usertype" VARCHAR(10) DEFAULT 'user' NOT NULL,
 );
 
 CREATE TABLE "folder" (
@@ -21,8 +21,8 @@ CREATE TABLE "file" (
     "parent_id" INTEGER NOT NULL,
     "owner_user" VARCHAR(100) NOT NULL,
     "file_name" VARCHAR(100) NOT NULL,
-    "visibility" VARCHAR(20) NOT NULL,
-    "createDate" TIMESTAMP NOT NULL,
+    "visibility" VARCHAR(20) DEFAULT 'private' NOT NULL,
+    "createDate" DATE DEFAULT SYSDATE NOT NULL,
     "filetype" VARCHAR(10) NOT NULL, 
     CONSTRAINT "file_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "folder" ("id") ON DELETE CASCADE,
     CONSTRAINT "file_owner_fk" FOREIGN KEY ("owner_user") REFERENCES "users" ("username") ON DELETE CASCADE
@@ -33,7 +33,7 @@ CREATE TABLE "comment" (
     "author" VARCHAR(100) NOT NULL,
     "file_id" INTEGER NOT NULL,
     "comment_text" VARCHAR(1000) NOT NULL,
-    "createDate" TIMESTAMP NOT NULL,
+    "createDate" DATE DEFAULT SYSDATE NOT NULL,
     CONSTRAINT "comment_author_fk" FOREIGN KEY ("author") REFERENCES "users" ("username") ON DELETE CASCADE,
     CONSTRAINT "comment_file_fk" FOREIGN KEY ("file_id") REFERENCES "file" ("id") ON DELETE CASCADE
 );
