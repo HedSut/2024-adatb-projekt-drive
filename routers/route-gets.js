@@ -90,7 +90,6 @@ router.get("/explorer/:id", async (req, res) => {
     } 
 
     let currentFolder;
-    console.log(folderid);
     if (folderid == "root") {
         currentFolder = await new FolderDao().getUserRoot(username);
     } else {
