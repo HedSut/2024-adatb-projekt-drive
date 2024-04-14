@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     explorer.addEventListener("contextmenu", function (event) {
         if (!event.target.closest(".folder")) {
-
+            console.log("Halo");
             event.preventDefault(); // Prevent the default context menu
             const x = event.clientX;
             const y = event.clientY;

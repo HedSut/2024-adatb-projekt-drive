@@ -80,7 +80,17 @@ router.post("/addfolder", async (req, res) => {
     }
 
     if (username) {
-        await new FolderDao().addFolder("Új mappa", folderid, username)
+        folders = await new FolderDao().getChildFolders(folderid);
+
+        let takenName = false;
+        let number = 0;
+        for(let i = 0; i < folders.length; i++) {
+            if(folders[i][1].match("Új mappa(?: \(\d+\))?")) {
+                number++;
+            }
+        }
+
+        await new FolderDao().addFolder("Új mappa" + (number == 0 ? "" : " (" + number + ")"), folderid, username)
     }
     res.cookie("msg", "Mappa sikeresen létrehozva!", { httpOnly: true, maxAge: 1000 });
     return res.redirect("explorer/" + folderid);
