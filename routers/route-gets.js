@@ -79,9 +79,38 @@ router.get("/explorer/:id", async (req, res) => {
     const msg = req.cookies.msg;
     const folderid = req.params.id;
     var username;
+    
+    if (token) {
+        jwt.verify(token, secret, async (err, decodedToken) => {
+            username = decodedToken.username;
+
+            folderdao = new FolderDao();
+            root = await folderdao.getUserRoot(username);
+            let currentFolderID = root[0];
+
+            folders = await folderdao.getChildFolders(root[0]);
+            console.log(folders)
+            res.render("explorer", { folders: folders, currentFolderID: currentFolderID });
+        })
+    }
+
+    //TODO: itt majd a loginra kell átdobjon, ez csak tesztelni van itt
+    return res.render("explorer", {
+        folders: [
+            { name: 'Folder 1', folder_id: 1 },
+            { name: 'Folder 2', folder_id: 2 },
+            { name: 'Folder 3', folder_id: 3 }
+        ],
+        currentFolderID: req.params.folderID
+    });
+});
+
+router.get("/explorer/:folderID", async (req, res) => {
+    const token = req.cookies.jwt;
+    var username;
 
     if (token) {
-        jwt.verify(token, secret, (err, decodedToken) => {
+        jwt.verify(token, secret, async (err, decodedToken) => {
             username = decodedToken.username;
         })
     }
