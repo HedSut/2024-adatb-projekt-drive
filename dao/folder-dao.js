@@ -42,6 +42,7 @@ class FolderDao {
             { folderid: id }
         );
         con.close();
+        console.log(result.rows[0])
         return result.rows[0];
     }
 
@@ -70,7 +71,6 @@ class FolderDao {
             'UPDATE "folder" SET "folder_name" = :name WHERE "id" = :folderid',
             { name: newname, folderid: id }
         );
-        console.log(result);
         con.commit();
         con.close();
         return;

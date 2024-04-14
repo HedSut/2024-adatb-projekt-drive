@@ -96,4 +96,38 @@ router.post("/addfolder", async (req, res) => {
     return res.redirect("explorer/" + folderid);
 });
 
+router.post("/renamefolder", async (req, res) => {
+    const token = req.cookies.jwt;
+    let { folderid } = req.body;
+    let { foldername } = req.body;
+    let username;
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+    
+    if (username) {
+        parentfolder = await new FolderDao().getFolder(folderid);
+        siblingfolders = await new FolderDao().getChildFolders(parentfolder[2]);
+
+        let freeName = true;
+        for(let i = 0; i < siblingfolders.length; i++) {
+            if(siblingfolders[i][0] !== folderid && siblingfolders[i][1].trim() === foldername) {
+                freeName = false;
+            } 
+        }
+
+
+        if(freeName) {
+            console.log("halokakakak");
+            console.log(foldername);
+            await new FolderDao().updateFolderName(folderid, foldername);
+        }
+    }
+    res.cookie("msg", "Mappa sikeresen átnevezve", { httpOnly: true, maxAge: 1000 });
+    return res.redirect("explorer/" + folderid);
+});
+
 module.exports = router;

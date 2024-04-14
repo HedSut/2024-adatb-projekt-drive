@@ -23,14 +23,22 @@
 
 				<div class="grid grid-cols-5 p-5 shadow-md rounded-md" id="explorer">
 
-					<%  for (let i=0; i < folders.length; i++) { %>
-						<div
-							class="folder cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
-							<img src="/folder.png" class="w-4/5">
-							<p class="">
-								<%= folders[i][1] %>
-							</p>
-						</div>
+					<% for (let i=0; i < folders.length; i++) { %>
+						<a href="/explorer/<%=folders[i][0]%>">
+							<div
+								id="<%=folders[i][0] %>"
+								class="folder cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+								<img src="/folder.png" class="w-4/5">
+								<p class="">
+									<%= folders[i][1] %>
+								</p>
+								<form action="/renamefolder" method="post" class="hidden w-full">
+									<input type="text" class="w-full" name="foldername" value="<%= folders[i][1]%>">
+									<input type="hidden" name="folderid" value="<%=folders[i][0]%>">
+									<input type="submit" class="hidden" />
+								</form>
+							</div>
+						</a>
 						<% } %>
 				</div>
 
@@ -53,13 +61,15 @@
 	<div id="contextMenuExplorer" class="absolute hidden bg-white border border-gray-300 shadow-md rounded-md">
 		<form action="/addfolder" method="post">
 			<input type="hidden" value="<%=currentFolder[0]%>" name="folderid">
-			<button class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300" type="submit">Mappa létrehozása</button>
+			<button class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300"
+				type="submit">Mappa létrehozása</button>
 		</form>
 	</div>
 
 	<div id="contextMenuFolder" class="absolute hidden bg-white border border-gray-300 shadow-md rounded-md">
 		<a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Megnyitása</a>
-		<a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Átnevezés</a>
+		<p class="hidden" id="menuRenameId"></p>
+		<a href="#" id="renameButton" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300" onclick="changeName()">Átnevezés</a>
 		<a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Törlés</a>
 	</div>
 

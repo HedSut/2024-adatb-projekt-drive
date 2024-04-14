@@ -101,8 +101,6 @@ router.get("/explorer/:id", async (req, res) => {
     folders = await new FolderDao().getChildFolders(currentFolder[0]);
     files = await new FileDao().getChildrenFiles(currentFolder[0]);
 
-    console.log(currentFolder[0]);
-
     return res.render("explorer", { 
         folders: folders,
         files: files,
