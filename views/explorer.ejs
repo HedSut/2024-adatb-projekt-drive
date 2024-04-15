@@ -17,6 +17,11 @@
 		<%- include('./navbar.ejs'); %>
 			<!-- Content-->
 			<div class="w-4/5 bg-white-500 p-10">
+				<form action="/exitfolder" method="post">
+					<input type="hidden" name="currentFolder" value="<%= currentFolder[0] %>">
+					<button type="submit">                                <img src="/arrow.svg"
+						class="shadow-md w-10 p-2 rotate-90 rounded-md hover:bg-gray-300 duration-300"></button>
+				</form>
 				<p class="mb-5 font-bold">
 					<%=currentFolder[1]%>
 				</p>

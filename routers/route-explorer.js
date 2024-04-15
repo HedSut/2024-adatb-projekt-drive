@@ -182,4 +182,11 @@ router.post("/uploadfile", async (req, res) => {
     return res.redirect("/explorer/" + currentFolder);
 });
 
+
+router.post("/exitfolder", async (req, res) => {
+    let { currentFolder } = req.body;
+    let parentfolder = await new FolderDao().getFolder(currentFolder);
+
+    return res.redirect("/explorer/" + parentfolder[2]);
+});
 module.exports = router;
