@@ -1,4 +1,5 @@
 const express = require("express");
+const fileUpload = require('express-fileupload');
 const path = require("path");
 const cparser = require("cookie-parser");
 const explorerRouter = require("./routers/route-explorer");
@@ -15,6 +16,7 @@ app.use(cparser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public/scripts")));
 app.use(express.urlencoded({extended: false}));
+app.use(fileUpload());
 app.use(explorerRouter);
 app.use(indexRouter);
 app.use(loginRouter);
