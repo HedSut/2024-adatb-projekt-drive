@@ -85,6 +85,8 @@ router.post("/renamefolder", async (req, res) => {
     const token = req.cookies.jwt;
     let { folderid } = req.body;
     let { foldername } = req.body;
+    let { type } = req.body;
+    let { currentFolder } = req.body;
     let username;
 
     if (token) {
@@ -94,30 +96,54 @@ router.post("/renamefolder", async (req, res) => {
     }
 
     if (username) {
-        parentfolder = await new FolderDao().getFolder(folderid);
+        let parentfolder = undefined;
+        if (type === "folder") {
+            parentfolder = await new FolderDao().getFolder(folderid);
+        } else {
+            file = await new FileDao().getFile(folderid);
+            parentfolder = await new FolderDao().getFolder(folderid[1]);
+        }
         siblingfolders = await new FolderDao().getChildFolders(parentfolder[2]);
+        siblingfiles = await new FileDao().getChildrenFiles(parentfolder[2]);
+
 
         let freeName = true;
         for (let i = 0; i < siblingfolders.length; i++) {
             if (
                 siblingfolders[i][0] !== folderid &&
-                siblingfolders[i][1].trim() === foldername
+                siblingfolders[i][1] === foldername
             ) {
                 freeName = false;
             }
         }
 
+        for (let i = 0; i < siblingfiles.length; i++) {
+            if (
+                siblingfiles[i][0] !== folderid &&
+                siblingfiles[i][3] === foldername
+            ) {
+                freeName = false;
+            }
+            console.log(siblingfiles[i][3])
+        }
+
         if (freeName) {
-            console.log("halokakakak");
-            console.log(foldername);
-            await new FolderDao().updateFolderName(folderid, foldername);
+            if (type === "folder") {
+                await new FolderDao().updateFolderName(folderid, foldername);
+            } else {
+                await new FileDao().updateFileName(folderid, foldername);
+            }
+
+            res.cookie("msg", "Mappa sikeresen átnevezve", {
+                httpOnly: true,
+                maxAge: 1000,
+            });
         }
     }
-    res.cookie("msg", "Mappa sikeresen átnevezve", {
-        httpOnly: true,
-        maxAge: 1000,
-    });
-    return res.redirect("explorer/" + folderid);
+
+    if (type === "folder") {
+        return res.redirect("explorer/" + currentFolder);
+    }
 });
 
 router.post("/uploadfile", async (req, res) => {
