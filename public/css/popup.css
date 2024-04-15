@@ -1,0 +1,13 @@
+#loadingBar {
+    animation: loadingAnimation 5s linear forwards;
+}
+
+@keyframes loadingAnimation {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}

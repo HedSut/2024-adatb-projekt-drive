@@ -40,16 +40,7 @@
 
 <% if(msg) { %>
 <script src="/scripts/popup.js"></script>
-<style>
-	#loadingBar {
-		animation: loadingAnimation 5s linear forwards; 
-	}
-	
-	@keyframes loadingAnimation {
-		from { width: 100%; }
-		to { width: 0%; }
-	}
-</style>
+<link rel="stylesheet" href="css/popup.css">
 <div id="popup" class="mt-5 flex absolute justify-center w-screen m-auto">
 	<div class="w-1/5 h-20 shadow-2xl bg-white rounded-md border border-gray-300 flex items-center justify-center flex-col">
 		<p class="font-bold text-lg">
