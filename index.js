@@ -1,8 +1,10 @@
 const express = require("express");
 const path = require("path");
 const cparser = require("cookie-parser");
-const routeGets = require("./routers/route-gets");
-const routePosts = require("./routers/route-posts");
+const explorerRouter = require("./routers/route-explorer");
+const indexRouter = require("./routers/route-index");
+const loginRouter = require("./routers/route-login");
+const registerRouter = require("./routers/route-register");
 const dbinit = require("./config/db");
 
 const PORT = process.env.PORT || 8080;
@@ -13,35 +15,10 @@ app.use(cparser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public/scripts")));
 app.use(express.urlencoded({extended: false}));
-app.use(routeGets);
-app.use(routePosts);
-
-// Útvonalak hozzáadása
-
-app.get('/index', (req, res) => {
-  res.render('index');
-});
-
-app.get('/profile', (req, res) => {
-  res.render('profile');
-});
-
-app.get('/file', (req, res) => {
-  res.render('file');
-});
-
-app.get('/explorer', (req, res) => {
-  res.render('explorer');
-});
-
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-app.get('/registration', (req, res) => {
-    res.render('registration');
-  });
-
-// További útvonalakat ide lehet hozzáadni...
+app.use(explorerRouter);
+app.use(indexRouter);
+app.use(loginRouter);
+app.use(registerRouter);
 
 new dbinit().initdb();
 
