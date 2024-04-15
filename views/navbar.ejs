@@ -36,7 +36,28 @@
 	</div>
 	<% } %>
 
-	<% if (typeof msg !== 'undefined') { %>
-		<p><%=msg%></p>
-	<% } %>
 </div>
+
+<% if(msg) { %>
+<script src="/scripts/popup.js"></script>
+<style>
+	#loadingBar {
+		animation: loadingAnimation 5s linear forwards; 
+	}
+	
+	@keyframes loadingAnimation {
+		from { width: 100%; }
+		to { width: 0%; }
+	}
+</style>
+<div id="popup" class="mt-5 flex absolute justify-center w-screen m-auto">
+	<div class="w-1/5 h-20 shadow-2xl bg-white rounded-md border border-gray-300 flex items-center justify-center flex-col">
+		<p class="font-bold text-lg">
+			<%= msg %>
+		</p>
+		<div id="loadingBarContainer" class="w-4/5 h-1 bg-gray-300 rounded-full">
+			<div id="loadingBar" class="w-full h-1 bg-green-500 rounded-full"></div>
+		</div>
+	</div>
+</div>
+<% } %>
