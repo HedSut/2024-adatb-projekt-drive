@@ -16,11 +16,11 @@ class RatingDao {
     async getFileRatings(fileid) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'SELECT * FROM "rating" WHERE "fileid" = :fileid',
+            'SELECT COUNT(*) FROM "rating" WHERE "fileid" = :fileid',
             { fileid: fileid }
         );
         con.close();
-        return result.rows;
+        return result.rows[0];
     }
 
     async updateRating(username, fileid, rating) {

@@ -14,28 +14,9 @@
         <!-- Content-->
         <div class="w-4/5 bg-white-500 p-10">
             <p class="mb-5 font-bold">
-                /Dokumentumok/Hazi
+                <%= file[3] %>
             </p>
             <div class="flex">
-                <div class="w-1/2 rounded-md bg-gray-300">
-
-                    <!-- File content, ha kép akkor a felső jelenjen meg, ha szöveges akkor az alsó -->
-                    <img src="https://picsum.photos/1920/1080" class="rounded-md">
-                    
-                <!--
-                    <p class="text-justify p-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem
-                        pariatur enim, commodi
-                        modi
-                        accusantium quis recusandae saepe odio nemo libero, atque aliquid! Laudantium incidunt ea
-                        pariatur
-                        doloremque nobis, dolore fuga! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                        Mollitia
-                        explicabo officiis temporibus perspiciatis quam ipsa reprehenderit, natus accusantium magnam
-                        aperiam
-                        optio corrupti accusamus saepe aut delectus voluptatem rem harum eaque!</p>
-                            -->
-                </div>
-
                 <div class="w-1/2 flex flex-col p-5">
                     <div>
                         <form class="flex flex-row" action="/changevisibility" method="post">
@@ -44,6 +25,7 @@
                                 <option value="private" selected>Privát</option>
                                 <option value="public">Publikus</option>
                             </select>
+                            <input type="hidden" name="fileid" value="<%= file[0] %>">
                             <button type="submit" class="p-1 w-20 bg-gray-300 rounded-md">
                                 Mentés
                             </button>
@@ -64,17 +46,17 @@
                         <form action="/ratefile" method="post">
                             <input type="hidden" value="down">
                             <button type="submit">
-                                <img src="../public/arrow.svg"
+                                <img src="/arrow.svg"
                                     class="w-10 p-2 rounded-md bg-gray-300 hover:bg-gray-500 duration-300">
                             </button>
                         </form>
                         <p class="font-bold p-2">
-                            120
+                            <%= rating %>
                         </p>
                         <form action="/ratefile" method="post">
                             <input type="hidden" value="up">
                             <button type="submit">
-                                <img src="../public/arrow.svg"
+                                <img src="/arrow.svg"
                                     class="w-10 p-2 rotate-180 rounded-md bg-gray-300 hover:bg-gray-500 duration-300">
                             </button>
                         </form>
@@ -83,20 +65,21 @@
             </div>
 
 
-
+        <!--
             <div class="w-full mt-5 shadow-md rounded-md p-5">
-                <% for (let i = 0; i < files.comments.length; i++) { %>
+                
                     <div class="h-auto flex mb-5">
-                        <img src="../public/<%=users.img%>" class="shadow-md h-20 rounded-full overflow-clip mr-5">
+                        <img src="../public/" class="shadow-md h-20 rounded-full overflow-clip mr-5">
                         <div>
-                            <p class="flex mt-1 font-bold"><%=files.users.name%> · <%=files.users.date%></p>
-                            <p class="text-justify"><%=files.comments[i].name%></p>
+                            <p class="flex mt-1 font-bold"> · </p>
+                            <p class="text-justify"></p>
                         </div>
                     </div>
-                 <% } %>
+                
 
             </div>
         </div>
+    -->
 
 
 

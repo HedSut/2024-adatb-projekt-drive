@@ -6,6 +6,7 @@ const explorerRouter = require("./routers/route-explorer");
 const indexRouter = require("./routers/route-index");
 const loginRouter = require("./routers/route-login");
 const registerRouter = require("./routers/route-register");
+const fileRouter = require("./routers/route-file");
 const dbinit = require("./config/db");
 
 const PORT = process.env.PORT || 8080;
@@ -21,6 +22,7 @@ app.use(explorerRouter);
 app.use(indexRouter);
 app.use(loginRouter);
 app.use(registerRouter);
+app.use(fileRouter);
 
 new dbinit().initdb();
 

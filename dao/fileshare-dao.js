@@ -33,6 +33,16 @@ class FileshareDao {
         return result.rows;
     }
 
+    async getFileShare(fileid, username) {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "fileshare" WHERE "fileid" = :fileid AND "username" = :usr',
+            { fileid: fileid, usr: username }
+        );
+        con.close();
+        return result.rows[0];
+    }
+
     async deleteFileshare(username, fileid) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
