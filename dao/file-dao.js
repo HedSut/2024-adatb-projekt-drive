@@ -42,7 +42,8 @@ class FileDao {
     async getPublicFiles() {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'SELECT * FROM "file" WHERE "visibility" = "public"'
+            'SELECT * FROM "file" WHERE "visibility" = :pb',
+            {pb: "public"}
         );
         con.close();
         return result.rows;

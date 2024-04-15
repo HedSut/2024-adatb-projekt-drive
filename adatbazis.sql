@@ -10,8 +10,8 @@ CREATE TABLE "folder" (
     "folder_name" VARCHAR(100) NOT NULL,
     "parent_id" INTEGER,
     "owner_user" VARCHAR(100) NOT NULL,
-    "visibility" VARCHAR(20) DEFAULT 'private' NOT NULL,
     "createDate" DATE DEFAULT SYSDATE NOT NULL,
+    "visibility" VARCHAR(20) DEFAULT 'private' NOT NULL,
     CONSTRAINT "folder_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "folder" ("id") ON DELETE CASCADE,
     CONSTRAINT "folder_owner_fk" FOREIGN KEY ("owner_user") REFERENCES "users" ("username") ON DELETE CASCADE
 );
@@ -23,7 +23,6 @@ CREATE TABLE "file" (
     "file_name" VARCHAR(100) NOT NULL,
     "visibility" VARCHAR(20) DEFAULT 'private' NOT NULL,
     "createDate" DATE DEFAULT SYSDATE NOT NULL,
-    "filetype" VARCHAR(10) NOT NULL, 
     CONSTRAINT "file_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "folder" ("id") ON DELETE CASCADE,
     CONSTRAINT "file_owner_fk" FOREIGN KEY ("owner_user") REFERENCES "users" ("username") ON DELETE CASCADE
 );
