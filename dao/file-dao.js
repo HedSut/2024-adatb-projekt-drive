@@ -1,22 +1,25 @@
 const oracledb = require("oracledb");
 
 class FileDao {
-    async addFile(filename, parentid, owneruser, extension) {
-        // TODO: using trigger set visibility to private and add current date when inserted
+    async addFile(filename, parentid, owneruser) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'INSERT INTO "file" ("parent_id", "owner_user", "file_name", "filetype") VALUES (:parentid, :owneruser, :filename, :fileextension)',
+            'INSERT INTO "file" ("parent_id", "owner_user", "file_name") VALUES (:parentid, :owneruser, :filename)',
             {
                 parentid: parentid,
                 owneruser: owneruser,
                 filename: filename,
-                fileextension: extension,
             }
         );
         console.log(result);
         con.commit();
+        const rowid = result.lastRowid;
+        result = await con.execute(
+            'SELECT * FROM "file" WHERE ROWID = :lastRowid',
+            { lastRowid: rowid }
+        );
         con.close();
-        return;
+        return result.rows[0];
     }
 
     async getAllFiles() {

@@ -120,4 +120,40 @@ router.post("/renamefolder", async (req, res) => {
     return res.redirect("explorer/" + folderid);
 });
 
+router.post("/uploadfile", async (req, res) => {
+    const token = req.cookies.jwt;
+    let username;
+    let { currentFolder } = req.body;
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+        res.cookie("msg", "Sikertelen fájlfeltöltés");
+        return res.redirect("/explorer/" + currentFolder);
+    }
+
+    let uploadedFile = req.files.uploadedFile;
+    const filename = uploadedFile.name;
+
+    let record = await new FileDao().addFile(filename, currentFolder, username);
+
+    let extension = filename.split(".");
+    extension = extension[extension.length - 1];
+
+
+    await uploadedFile.mv("./files/" + record[0] + "." + extension);
+
+    console.log("Fájl feltöltve: ");
+    console.log("new record: " + record);
+    console.log("filename: " + filename);
+    console.log("extension: " + extension);
+    console.log("\n\n\n");
+
+    return res.redirect("/explorer/" + currentFolder);
+});
+
 module.exports = router;
