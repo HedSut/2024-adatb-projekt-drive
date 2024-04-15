@@ -58,7 +58,8 @@ class FolderDao {
     async getPublicFolders() {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'SELECT * FROM "folder" WHERE "visibility" = "public"'
+            'SELECT * FROM "folder" WHERE "visibility" = :pb',
+            { pb: "public" }
         );
         con.close();
         return result.rows;

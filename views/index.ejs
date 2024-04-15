@@ -27,42 +27,30 @@
 			<table class="mt-20 table-auto rounded-t-md shadow w-full">
 				<thead class="h-10 rounded-t-md ">
 					<tr>
-						<th class="p-2 text-left">Fájl neve </th>
-						<th class="p-2 text-left">Publikus </th>
+						<th></th>
+						<th class="p-2 text-left">Név </th>
+						<th class="p-2 text-left">Létrehozás dátuma </th>
 						<th class="p-2 text-left">Tulajdonos </th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="bg-gray-400">
-						<td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-						<td class="p-2 text-left">Malcolm Lockyer</td>
-						<td class="p-2 text-left">1961</td>
-					</tr>
-					<tr class="bg-gray-200">
-						<td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-						<td class="p-2 text-left">Malcolm Lockyer</td>
-						<td class="p-2 text-left">1961</td>
-					</tr>
-					<tr class="bg-gray-400">
-						<td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-						<td class="p-2 text-left">Malcolm Lockyer</td>
-						<td class="p-2 text-left">1961</td>
-					</tr>
-					<tr class="bg-gray-200">
-						<td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-						<td class="p-2 text-left">Malcolm Lockyer</td>
-						<td class="p-2 text-left">1961</td>
-					</tr>
-					<tr class="bg-gray-400">
-						<td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-						<td class="p-2 text-left">Malcolm Lockyer</td>
-						<td class="p-2 text-left">1961</td>
-					</tr>
-					<tr class="bg-gray-200">
-						<td class="p-2 text-left">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-						<td class="p-2 text-left">Malcolm Lockyer</td>
-						<td class="p-2 text-left">1961</td>
-					</tr>
+					<% for (let i = 0; i < folders.length; i++) { %>
+						<tr class="bg-gray-400">
+							<td class="p-2 text-left"><a href="/explorer/<%= folders[i][0] %>"><img src="folder.svg" class="h-6"></a></td>
+							<td class="p-2 text-left"><%= folders[i][1] %></td>
+							<td class="p-2 text-left"><%= new Date(folders[0][4]).toLocaleString('default', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+							<td class="p-2 text-left"><%= folders[i][3] %></td>
+						</tr>
+					<% } %>
+
+					<% for (let i = 0; i < files.length; i++) { %>
+						<tr class="bg-gray-400">
+							<td class="p-2 text-left"><a href="/file/<%= files[i][0] %>"><img src="file.svg" class="h-6"></a></td>
+							<td class="p-2 text-left"><%= files[i][3] %></td>
+							<td class="p-2 text-left"><%= new Date(files[0][5]).toLocaleString('default', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+							<td class="p-2 text-left"><%= files[i][2] %></td>
+						</tr>
+					<% } %>
 				</tbody>
 			</table>
 		</div>
