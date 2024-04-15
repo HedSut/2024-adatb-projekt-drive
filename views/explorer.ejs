@@ -25,8 +25,7 @@
 
 					<% for (let i=0; i < folders.length; i++) { %>
 						<a href="/explorer/<%=folders[i][0]%>">
-							<div
-								id="<%=folders[i][0] %>"
+							<div id="<%=folders[i][0] %>"
 								class="folder cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
 								<img src="/folder.png" class="w-4/5">
 								<p class="">
@@ -39,7 +38,25 @@
 								</form>
 							</div>
 						</a>
-						<% } %>
+					<% } %>
+
+					<% for (let i=0; i < files.length; i++) { %>
+						<a href="/explorer/<%=files[i][0]%>">
+							<div id="<%=files[i][0] %>"
+								class="folder cursor-pointer p-5 m-4 flex flex-col items-center justify-center rounded-md hover:shadow-md transition-shadow duration-500">
+								<img src="/file.svg" class="w-4/5">
+								<p class="">
+									<%= files[i][3] %>
+								</p>
+								<form action="/renamefolder" method="post" class="hidden w-full">
+									<input type="text" class="w-full" name="foldername"
+										value="<%= files[i][1]%>">
+									<input ty pe="hidden" name="folderid" value="<%=files[i][0]%>">
+									<input type="submit" class="hidden" />
+								</form>
+							</div>
+						</a>
+					<% } %>
 				</div>
 
 				<form class="flex flex-col" action="/uploadfile" method="post" enctype="multipart/form-data">
@@ -71,7 +88,9 @@
 	<div id="contextMenuFolder" class="absolute hidden bg-white border border-gray-300 shadow-md rounded-md">
 		<a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Megnyitása</a>
 		<p class="hidden" id="menuRenameId"></p>
-		<a href="#" id="renameButton" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300" onclick="changeName()">Átnevezés</a>
+		<a href="#" id="renameButton"
+			class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300"
+			onclick="changeName()">Átnevezés</a>
 		<a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Törlés</a>
 	</div>
 
