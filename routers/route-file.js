@@ -6,6 +6,9 @@ const bcrypt = require("bcryptjs");
 const UserDao = require("../dao/user-dao");
 const FolderDao = require("../dao/folder-dao");
 const FileDao = require("../dao/file-dao");
+const FileshareDao = require("../dao/fileshare-dao");
+const RatingsDao = require("../dao/rating-dao");
+
 
 router.get("/file/:id", async (req, res) => {
     const token = req.cookies.jwt;
@@ -19,29 +22,84 @@ router.get("/file/:id", async (req, res) => {
         });
     }
 
+    let file = await new FileDao().getFile(fileid);
+    if (file == null) {
+        res.cookie("msg", "Nincs ilyen fájl!", {
+            httpOnly: true,
+            maxAge: 1000,
+        });
+        return res.redirect("/"); 
+    }
+
+    let rating = await new RatingsDao().getFileRatings(fileid);
+
+    if (file[4] == "public") {
+        return res.render("file", {
+            file: file,
+            rating: rating[0],
+            msg: msg,
+            username: username
+        });
+    }
+
+    
+    if (username) {
+        if (file[2] == username) {
+            return res.render("file", {
+                file: file,
+                rating: rating[0],
+                msg: msg,
+                username: username
+            });
+        }
+
+        let share = await new FileshareDao().getFileShare(fileid, username);
+        if (share != null) {
+            return res.render("file", {
+                file: file,
+                rating: rating[0],
+                msg: msg,
+                username: username
+            });
+        }
+    }
+
+    res.cookie("msg", "Nincs jogod a fájl megnézéséhez!", {
+        httpOnly: true,
+        maxAge: 1000,
+    });
+    return res.redirect("/");
+});
+
+
+router.post("/changevisibility", async (req, res) => {
+    const token = req.cookies.jwt;
+    const msg = req.cookies.msg;
+    const { fileid } = req.body;
+    const { visibility } = req.body;
+    var username;
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+
     if (!username) {
-        res.cookie("msg", "Nem vagy bejelentkezve!", {
+        res.cookie("msg", "Nincs jogosultságod ehhez!", {
             httpOnly: true,
             maxAge: 1000,
         });
         return res.redirect("/");
     }
 
-    let currentFolder;
-    if (folderid == "root") {
-        currentFolder = await new FolderDao().getUserRoot(username);
-    } else {
-        currentFolder = await new FolderDao().getFolder(folderid);
-    }
 
-    folders = await new FolderDao().getChildFolders(currentFolder[0]);
-    files = await new FileDao().getChildrenFiles(currentFolder[0]);
-
-    return res.render("explorer", {
-        folders: folders,
-        files: files,
-        currentFolder: currentFolder,
-        msg: msg,
-        username: username,
+    await new FileDao().updateFileVisibility(fileid, visibility);
+    res.cookie("msg", "Fájl láthatósága sikeresen módosítva!", {
+        httpOnly: true,
+        maxAge: 1000,
     });
+    return res.redirect("/file/" + fileid);
 });
+
+module.exports = router;
