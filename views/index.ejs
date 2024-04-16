@@ -40,15 +40,19 @@
 							<td class="p-2 text-left"><%= folders[i][1] %></td>
 							<td class="p-2 text-left"><%= new Date(folders[0][4]).toLocaleString('default', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
 							<td class="p-2 text-left"><%= folders[i][3] %></td>
+							<td></td>
 						</tr>
 					<% } %>
 
 					<% for (let i = 0; i < files.length; i++) { %>
 						<tr class="bg-gray-400">
-							<td class="p-2 text-left"><a href="/file/<%= files[i][0] %>"><img src="file.svg" class="h-6"></a></td>
-							<td class="p-2 text-left"><%= files[i][3] %></td>
-							<td class="p-2 text-left"><%= new Date(files[0][5]).toLocaleString('default', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
-							<td class="p-2 text-left"><%= files[i][2] %></td>
+							<td class="p-2 text-left "><a href="/file/<%= files[i][0] %>"><img src="file.svg" class="h-6"></a></td>
+							<td class="p-2 text-left "><%= files[i][3] %></td>
+							<td class="p-2 text-left "><%= new Date(files[0][5]).toLocaleString('default', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+							<td class="p-2 text-left "><%= files[i][2] %></td>
+							<td class="text-left w-auto">
+								<a href="/download/<%= files[i][0]%>">Letöltés</a>
+							</td>
 						</tr>
 					<% } %>
 				</tbody>

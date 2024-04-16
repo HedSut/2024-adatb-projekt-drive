@@ -1,0 +1,28 @@
+{
+  "name": "2024-adatb-projekt-drive",
+  "version": "1.0.0",
+  "description": "drive",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "express-fileupload": "^1.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "mime": "^3.0.0",
+    "node-oracledb": "^1.0.2",
+    "nodemon": "^3.1.0",
+    "oracledb": "^6.4.0"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4
+  }
+}
