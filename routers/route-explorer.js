@@ -198,7 +198,10 @@ router.post("/uploadfile", async (req, res) => {
     }
 
     if (!req.files || Object.keys(req.files).length === 0) {
-        res.cookie("msg", "Sikertelen fájlfeltöltés");
+        res.cookie("msg", "Sikertelen fájlfeltöltés", {
+            httpOnly: true,
+            maxAge: 1000,
+        });
         return res.redirect("/explorer/" + currentFolder);
     }
 

@@ -2,7 +2,6 @@ function openMenu(menu) {
     const picture = document.getElementById("pictureChangeForm");
     const email = document.getElementById("emailChangeForm");
     const password = document.getElementById("passwordChangeForm");
-    const username = document.getElementById("usernameChangeForm");
 
     if (!picture.classList.contains("hidden")) {
         picture.classList.add("hidden");
@@ -16,9 +15,6 @@ function openMenu(menu) {
         password.classList.add("hidden");
     }
 
-    if (!username.classList.contains("hidden")) {
-        username.classList.add("hidden");
-    }
 
     if (menu == "picture") {
         picture.classList.remove("hidden");
@@ -26,7 +22,5 @@ function openMenu(menu) {
         email.classList.remove("hidden");
     } else if (menu == "password") {
         password.classList.remove("hidden");
-    } else if (menu == "username") {
-        username.classList.remove("hidden");
     }
 }

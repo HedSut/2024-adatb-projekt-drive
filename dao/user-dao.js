@@ -52,6 +52,18 @@ class UserDao {
         return;
     }
 
+    async updatePassword(username, password) {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'UPDATE "users" SET "password" = :newpass WHERE "username" = :usr',
+            { usr: username, newpass: password }
+        );
+        console.log(result);
+        con.commit();
+        con.close();
+        return;
+    }
+
     async deleteUser(username) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
