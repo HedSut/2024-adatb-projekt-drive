@@ -4,51 +4,68 @@
 		<img src="/defaultpfp.png" class="shadow-md h-4/5 rounded-full overflow-clip">
 	</div>
 	<!-- Index page button -->
-	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-		<p class="text-center font-bold text-lg"><a href="/">Főoldal</a></p>
-	</div>
+	<a href="/">
+		<div
+			class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+			<p class="text-center font-bold text-lg">Főoldal</p>
+		</div>
+	</a>
 
-	<% if (username != null) { %>
-	<!-- Profile page button -->
-	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-		<p class="text-center font-bold text-lg"><a href="/profile">Saját fiók</a></p>
-	</div>
+	<% if (username !=null) { %>
+		<!-- Profile page button -->
+		<a href="/profile">
+			<div
+				class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+				<p class="text-center font-bold text-lg">Saját fiók</p>
+			</div>
+		</a>
 
-	<!-- Files page button -->
-	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-		<p class="text-center font-bold text-lg"><a href="/explorer/root">Fájljaim</a></p>
-	</div>
-	
-	<!-- Bookmark page button -->
-	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-		<p class="text-center font-bold text-lg"><a href="">Könyvjelzőim</a></p>
-	</div>
-
-	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-		<p class="text-center font-bold text-lg"><a href="/logout">Kijelentkezés</a></p>
-	</div>
+		<!-- Files page button -->
+		<a href="/explorer/root">
+			<div
+				class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+				<p class="text-center font-bold text-lg">Fájljaim</p>
+			</div>
+		</a>
+		<!-- Bookmark page button -->
+		<a href="">
+			<div
+				class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+				<p class="text-center font-bold text-lg">Könyvjelzőim</p>
+			</div>
+		</a>
+		<a href="/logout">
+			<div
+				class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+				<p class="text-center font-bold text-lg">Kijelentkezés</p>
+			</div>
+		</a>
 	<% } %>
 
-	<% if (username == null) { %>
-	<!-- Login button -->
-	<div class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-		<p class="text-center font-bold text-lg"><a href="/login">Bejelentkezés</a></p>
-	</div>
+	<% if (username==null) { %>
+		<!-- Login button -->
+		<a href="/login">
+			<div
+				class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+				<p class="text-center font-bold text-lg">Bejelentkezés</p>
+			</div>
+		</a>
 	<% } %>
 
 </div>
 
 <% if(msg) { %>
-<script src="/scripts/popup.js"></script>
-<link rel="stylesheet" href="css/popup.css">
-<div id="popup" class="mt-5 flex absolute justify-center w-screen m-auto">
-	<div class="w-1/5 h-20 shadow-2xl bg-white rounded-md border border-gray-300 flex items-center justify-center flex-col">
-		<p class="font-bold text-lg">
-			<%= msg %>
-		</p>
-		<div id="loadingBarContainer" class="w-4/5 h-1 bg-gray-300 rounded-full">
-			<div id="loadingBar" class="w-full h-1 bg-green-500 rounded-full"></div>
+	<script src="/scripts/popup.js"></script>
+	<link rel="stylesheet" href="css/popup.css">
+	<div id="popup" class="mt-5 flex absolute justify-center w-screen m-auto">
+		<div
+			class="w-1/5 h-20 shadow-2xl bg-white rounded-md border border-gray-300 flex items-center justify-center flex-col">
+			<p class="font-bold text-lg">
+				<%= msg %>
+			</p>
+			<div id="loadingBarContainer" class="w-4/5 h-1 bg-gray-300 rounded-full">
+				<div id="loadingBar" class="w-full h-1 bg-green-500 rounded-full"></div>
+			</div>
 		</div>
 	</div>
-</div>
-<% } %>
+	<% } %>
