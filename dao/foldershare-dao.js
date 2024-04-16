@@ -16,7 +16,7 @@ class FoldershareDao {
     async getFolderShare(username, folderid) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'SELECT * FROM "foldershare" WHERE "username" = :username AND "id" = :folderid',
+            'SELECT * FROM "foldershare" WHERE "username" = :username AND "folderid" = :folderid',
             { username: username, folderid: folderid }
         );
         con.close();
