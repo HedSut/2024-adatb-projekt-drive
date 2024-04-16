@@ -3,6 +3,8 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { secret, userAuth } = require("../config/auth");
 const bcrypt = require("bcryptjs");
+const fs = require('fs');
+const mime = require("mime");
 const UserDao = require("../dao/user-dao");
 const FolderDao = require("../dao/folder-dao");
 const FileDao = require("../dao/file-dao");
@@ -100,6 +102,63 @@ router.post("/changevisibility", async (req, res) => {
         maxAge: 1000,
     });
     return res.redirect("/file/" + fileid);
+});
+
+
+router.get("/download/:id", async (req, res) => {
+    const token = req.cookies.jwt;
+    const msg = req.cookies.msg;
+    const fileid = req.params.id;
+    var username;
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+
+    const file = await new FileDao().getFile(fileid);
+    if (file == null) {
+        res.cookie("msg", "Nincs ilyen fájl!", {
+            httpOnly: true,
+            maxAge: 1000,
+        });
+        return res.redirect("/"); 
+    }
+
+    const filename = file[3];
+    let extension = filename.split(".");
+    extension = extension[extension.length - 1];
+
+    var filepath = "./files/" + fileid + "." + extension;
+    var mimetype = mime.getType(filename);
+
+    if (file[4] == "public") {
+        res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+        res.setHeader('Content-type', mimetype);
+        return res.download(filepath, filename);
+    }
+    
+    if (username) {
+        if (file[2] == username) {
+            res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+            res.setHeader('Content-type', mimetype);
+            return res.download(filepath, filename);
+        }
+
+        let share = await new FileshareDao().getFileShare(fileid, username);
+        if (share != null) {
+            res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+            res.setHeader('Content-type', mimetype);
+            return res.download(filepath, filename);
+        }
+    }
+
+    res.cookie("msg", "Nincs engedélyed a fájl letöltéséhez!", {
+        httpOnly: true,
+        maxAge: 1000,
+    });
+    return res.redirect("/");
 });
 
 module.exports = router;
