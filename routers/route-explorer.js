@@ -55,7 +55,7 @@ router.get("/explorer/:id", async (req, res) => {
     }
 
     if (username) {
-        if (folder[3] == username) {
+        if (currentFolder[3] == username) {
             return res.render("explorer", {
                 folders: folders,
                 files: files,
