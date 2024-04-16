@@ -61,31 +61,44 @@
                             </button>
                         </form>
                     </div>
+
+                    <div class="mt-5">
+                        <form class="flex flex-col" action="/addcomment" method="post">
+                            <input type="hidden" name="fileid" value="<%= file[0] %>">
+                            <textarea placeholder="Hozzászólás ... " name="text"
+                                class="shadow-md rounded-md w-full mb-2 p-2 focus:outline-none focus:border focus:border-blue-500"></textarea>
+                            <button type="submit" class="w-1/5 p-2 bg-gray-300 rounded-md">
+                                Közzététel
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
-
-        <!--
-            <div class="w-full mt-5 shadow-md rounded-md p-5">
-                
+            <% for(let i = 0; i < comment.length; i++) { %>
+                <div class="w-full mt-5 shadow-md rounded-md p-5">
                     <div class="h-auto flex mb-5">
-                        <img src="../public/" class="shadow-md h-20 rounded-full overflow-clip mr-5">
+                        <img src="/defaultpfp.png" class="shadow-md h-20 rounded-full overflow-clip mr-5">
                         <div>
-                            <p class="flex mt-1 font-bold"> · </p>
-                            <p class="text-justify"></p>
+                            <p class="flex mt-1 font-bold"> <%= comment[i][1] %> · <%=new Date(comment[i][4]).toLocaleString('default', { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'  })%></p>
+                            <p class="text-justify"> <%= comment[i][3] %> </p>
                         </div>
                     </div>
-                
+                    <% if(comment[i][1] == username) {%>
+                        <form class="flex flex-col" action="/deletecomment" method="post">
+                            <input type="hidden" name="commentid" value="<%= comment[i][0] %>">
+                            <input type="hidden" name="fileid" value="<%= file[0] %>">
+                            <button type="submit" class="w-1/5 p-2 bg-gray-300 rounded-md">
+                                Törlés
+                            </button>
+                        </form>
+                    <% } %>
+                </div>
 
-            </div>
+
+            <% } %>
         </div>
-    -->
-
-
-
-
     </div>
-
 </body>
 
 </html>

@@ -24,6 +24,17 @@ class CommentDao {
         return result.rows;
     }
 
+    async getComment(id) {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "comment" WHERE "id" = :id',
+            { id: id }
+        );
+        con.commit();
+        con.close();
+        return result.rows[0];
+    }
+
     async deleteComment(id) {
         let con = await oracledb.getConnection();
         let result = await con.execute(

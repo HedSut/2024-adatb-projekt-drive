@@ -10,6 +10,7 @@ const FolderDao = require("../dao/folder-dao");
 const FileDao = require("../dao/file-dao");
 const FileshareDao = require("../dao/fileshare-dao");
 const RatingsDao = require("../dao/rating-dao");
+const CommentDao = require("../dao/comment-dao");
 
 
 router.get("/file/:id", async (req, res) => {
@@ -34,13 +35,14 @@ router.get("/file/:id", async (req, res) => {
     }
 
     let rating = await new RatingsDao().getFileRatings(fileid);
-
+    let comment = await new CommentDao().getFileComments(fileid);
     if (file[4] == "public") {
         return res.render("file", {
             file: file,
             rating: rating[0],
             msg: msg,
-            username: username
+            username: username,
+            comment: comment
         });
     }
 
@@ -51,7 +53,8 @@ router.get("/file/:id", async (req, res) => {
                 file: file,
                 rating: rating[0],
                 msg: msg,
-                username: username
+                username: username,
+                comment: comment
             });
         }
 
@@ -61,7 +64,8 @@ router.get("/file/:id", async (req, res) => {
                 file: file,
                 rating: rating[0],
                 msg: msg,
-                username: username
+                username: username,
+                comment: comment
             });
         }
     }
@@ -73,6 +77,55 @@ router.get("/file/:id", async (req, res) => {
     return res.redirect("/");
 });
 
+router.post("/addcomment", async (req, res) => {
+    const token = req.cookies.jwt;
+    const msg = req.cookies.msg;
+    let { fileid } = req.body;
+    let { text } = req.body;
+    var username;
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+
+    if(username) {
+        await new CommentDao().addComment(username, fileid, text);
+
+    }
+    res.cookie("msg", "Hozzászólás sikeresen közzétéve!", {
+        httpOnly: true,
+        maxAge: 1000,
+    });
+    return res.redirect("/file/" + fileid);
+});
+
+router.post("/deletecomment", async (req, res) => {
+    const token = req.cookies.jwt;
+    const msg = req.cookies.msg;
+    let { commentid } = req.body;
+    let { fileid } = req.body;
+    var username;
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+
+    let comment = await new CommentDao().getComment(commentid);
+    if(username && username === comment[1]) {
+        await new CommentDao().deleteComment(commentid);
+    }
+    console.log(comment);
+
+    res.cookie("msg", "Hozzászólás sikeresen törölve!", {
+        httpOnly: true,
+        maxAge: 1000,
+    });
+    return res.redirect("/file/" + fileid);
+});
 
 router.post("/changevisibility", async (req, res) => {
     const token = req.cookies.jwt;
