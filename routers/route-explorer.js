@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { secret, userAuth } = require("../config/auth");
-const bcrypt = require("bcryptjs");
-const UserDao = require("../dao/user-dao");
 const FolderDao = require("../dao/folder-dao");
+const FolderShareDao = require("../dao/foldershare-dao");
 const FileDao = require("../dao/file-dao");
 
 router.get("/explorer/:id", async (req, res) => {
@@ -34,16 +33,58 @@ router.get("/explorer/:id", async (req, res) => {
         currentFolder = await new FolderDao().getFolder(folderid);
     }
 
+    if (currentFolder == null) {
+        res.cookie("msg", "Nincs ilyen mappa!", {
+            httpOnly: true,
+            maxAge: 1000,
+        });
+        return res.redirect("/");
+    }
+
     folders = await new FolderDao().getChildFolders(currentFolder[0]);
     files = await new FileDao().getChildrenFiles(currentFolder[0]);
 
-    return res.render("explorer", {
-        folders: folders,
-        files: files,
-        currentFolder: currentFolder,
-        msg: msg,
-        username: username,
+    if (currentFolder[5] == "public") {
+        return res.render("explorer", {
+            folders: folders,
+            files: files,
+            currentFolder: currentFolder,
+            msg: msg,
+            username: username,
+        });
+    }
+
+    if (username) {
+        if (folder[3] == username) {
+            return res.render("explorer", {
+                folders: folders,
+                files: files,
+                currentFolder: currentFolder,
+                msg: msg,
+                username: username,
+            });
+        }
+
+        let share = await new FolderShareDao().getFolderShare(
+            username,
+            currentFolder[0]
+        );
+        if (share != null) {
+            return res.render("explorer", {
+                folders: folders,
+                files: files,
+                currentFolder: currentFolder,
+                msg: msg,
+                username: username,
+            });
+        }
+    }
+
+    res.cookie("msg", "Nincs jogosultságod a mappa megtekintéséhez!", {
+        httpOnly: true,
+        maxAge: 1000,
     });
+    return res.redirect("/");
 });
 
 router.post("/addfolder", async (req, res) => {
@@ -106,7 +147,6 @@ router.post("/renamefolder", async (req, res) => {
         siblingfolders = await new FolderDao().getChildFolders(parentfolder[2]);
         siblingfiles = await new FileDao().getChildrenFiles(parentfolder[2]);
 
-
         let freeName = true;
         for (let i = 0; i < siblingfolders.length; i++) {
             if (
@@ -124,7 +164,7 @@ router.post("/renamefolder", async (req, res) => {
             ) {
                 freeName = false;
             }
-            console.log(siblingfiles[i][3])
+            console.log(siblingfiles[i][3]);
         }
 
         if (freeName) {
@@ -170,7 +210,6 @@ router.post("/uploadfile", async (req, res) => {
     let extension = filename.split(".");
     extension = extension[extension.length - 1];
 
-
     await uploadedFile.mv("./files/" + record[0] + "." + extension);
 
     console.log("Fájl feltöltve: ");
@@ -181,7 +220,6 @@ router.post("/uploadfile", async (req, res) => {
 
     return res.redirect("/explorer/" + currentFolder);
 });
-
 
 router.post("/exitfolder", async (req, res) => {
     let { currentFolder } = req.body;

@@ -19,6 +19,7 @@
                 </p>
                 <div class="flex">
                     <div class="w-1/2 flex flex-col p-5">
+                        <% if (file[2] == username) { %>
                         <div>
                             <form class="flex flex-row" action="/changevisibility" method="post">
                                 <select name="visibility"
@@ -42,6 +43,7 @@
                                 </button>
                             </form>
                         </div>
+                        <% } %>
 
                         <div class="flex mt-5">
                             <form action="/ratefile" method="post">
@@ -74,7 +76,7 @@
                             </form>
                         </div>
 
-                        <a href="/download/<%= files[0][0]%>" class="w-1/5">
+                        <a href="/download/<%= file[0]%>" class="w-1/5">
                             <div class="p-2 mt-2 rounded-md text-center bg-gray-300">
                                 Letöltés
                             </div>

@@ -2,16 +2,11 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { secret, userAuth } = require("../config/auth");
-const bcrypt = require("bcryptjs");
-const fs = require('fs');
 const mime = require("mime");
-const UserDao = require("../dao/user-dao");
-const FolderDao = require("../dao/folder-dao");
 const FileDao = require("../dao/file-dao");
 const FileshareDao = require("../dao/fileshare-dao");
 const RatingsDao = require("../dao/rating-dao");
 const CommentDao = require("../dao/comment-dao");
-
 
 router.get("/file/:id", async (req, res) => {
     const token = req.cookies.jwt;
@@ -31,7 +26,7 @@ router.get("/file/:id", async (req, res) => {
             httpOnly: true,
             maxAge: 1000,
         });
-        return res.redirect("/"); 
+        return res.redirect("/");
     }
 
     let rating = await new RatingsDao().getFileRatings(fileid);
@@ -42,11 +37,10 @@ router.get("/file/:id", async (req, res) => {
             rating: rating[0],
             msg: msg,
             username: username,
-            comment: comment
+            comment: comment,
         });
     }
 
-    
     if (username) {
         if (file[2] == username) {
             return res.render("file", {
@@ -54,7 +48,7 @@ router.get("/file/:id", async (req, res) => {
                 rating: rating[0],
                 msg: msg,
                 username: username,
-                comment: comment
+                comment: comment,
             });
         }
 
@@ -65,7 +59,7 @@ router.get("/file/:id", async (req, res) => {
                 rating: rating[0],
                 msg: msg,
                 username: username,
-                comment: comment
+                comment: comment,
             });
         }
     }
@@ -90,9 +84,8 @@ router.post("/addcomment", async (req, res) => {
         });
     }
 
-    if(username) {
+    if (username) {
         await new CommentDao().addComment(username, fileid, text);
-
     }
     res.cookie("msg", "Hozzászólás sikeresen közzétéve!", {
         httpOnly: true,
@@ -115,7 +108,7 @@ router.post("/deletecomment", async (req, res) => {
     }
 
     let comment = await new CommentDao().getComment(commentid);
-    if(username && username === comment[1]) {
+    if (username && username === comment[1]) {
         await new CommentDao().deleteComment(commentid);
     }
     console.log(comment);
@@ -148,7 +141,6 @@ router.post("/changevisibility", async (req, res) => {
         return res.redirect("/");
     }
 
-
     await new FileDao().updateFileVisibility(fileid, visibility);
     res.cookie("msg", "Fájl láthatósága sikeresen módosítva!", {
         httpOnly: true,
@@ -156,7 +148,6 @@ router.post("/changevisibility", async (req, res) => {
     });
     return res.redirect("/file/" + fileid);
 });
-
 
 router.get("/download/:id", async (req, res) => {
     const token = req.cookies.jwt;
@@ -176,7 +167,7 @@ router.get("/download/:id", async (req, res) => {
             httpOnly: true,
             maxAge: 1000,
         });
-        return res.redirect("/"); 
+        return res.redirect("/");
     }
 
     const filename = file[3];
@@ -187,22 +178,31 @@ router.get("/download/:id", async (req, res) => {
     var mimetype = mime.getType(filename);
 
     if (file[4] == "public") {
-        res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-        res.setHeader('Content-type', mimetype);
+        res.setHeader(
+            "Content-disposition",
+            "attachment; filename=" + filename
+        );
+        res.setHeader("Content-type", mimetype);
         return res.download(filepath, filename);
     }
-    
+
     if (username) {
         if (file[2] == username) {
-            res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-            res.setHeader('Content-type', mimetype);
+            res.setHeader(
+                "Content-disposition",
+                "attachment; filename=" + filename
+            );
+            res.setHeader("Content-type", mimetype);
             return res.download(filepath, filename);
         }
 
         let share = await new FileshareDao().getFileShare(fileid, username);
         if (share != null) {
-            res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-            res.setHeader('Content-type', mimetype);
+            res.setHeader(
+                "Content-disposition",
+                "attachment; filename=" + filename
+            );
+            res.setHeader("Content-type", mimetype);
             return res.download(filepath, filename);
         }
     }
