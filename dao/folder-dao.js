@@ -55,7 +55,7 @@ class FolderDao {
             { usr: username }
         );
         con.close();
-        console.log("Selected root folder of user" + username + "\n");
+        console.log("Selected root folder of user " + username + "\n");
         return result.rows[0];
     }
 
