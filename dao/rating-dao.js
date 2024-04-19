@@ -20,7 +20,7 @@ class RatingDao {
             { }
         );
         con.close();
-        return result.rows[0];
+        return result.rows;
     }
 
     async getFileRatings(fileid) {

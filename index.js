@@ -9,6 +9,7 @@ const registerRouter = require("./routers/route-register");
 const fileRouter = require("./routers/route-file");
 const connectionRouter = require("./routers/route-connection");
 const profileRouter = require("./routers/route-profile");
+const adminRouter = require("./routers/route-admin");
 const dbinit = require("./config/db");
 
 const PORT = process.env.PORT || 8080;
@@ -27,6 +28,7 @@ app.use(registerRouter);
 app.use(fileRouter);
 app.use(connectionRouter);
 app.use(profileRouter);
+app.use(adminRouter);
 
 new dbinit().initdb();
 

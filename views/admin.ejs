@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="scripts/admin.js"></script>
+</head>
+
+<body>
+    <div class="flex">
+        <%- include('./navbar.ejs'); %>
+            <!-- Content-->
+            <div class="flex flex-col w-4/5 items-center">
+                <!-- Sub header -->
+                <div class="flex flex-row justify-center w-full h-20 bg-white sticky top-0">
+                    <div onclick="openMenu('bookmarkTable')"
+                        class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                        <p class="text-center font-bold text-lg">Könyvjelzők</p>
+                    </div>
+                    <div onclick="openMenu('commentTable')"
+                        class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                        <p class="text-center font-bold text-lg">Hozzászólások</p>
+                    </div>
+                    <div onclick="openMenu('fileTable')"
+                        class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                        <p class="text-center font-bold text-lg">Fileok</p>
+                    </div>
+                    <div onclick="openMenu('fileshareTable')"
+                        class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                        <p class="text-center font-bold text-lg">File megosztások</p>
+                    </div>
+                    <div onclick="openMenu('folderTable')"
+                        class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                        <p class="text-center font-bold text-lg">Mappák</p>
+                    </div>
+                    <div onclick="openMenu('foldershareTable')"
+                        class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                        <p class="text-center font-bold text-lg">Mappa megosztások</p>
+                    </div>
+                    <div onclick="openMenu('ratingTable')"
+                        class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                        <p class="text-center font-bold text-lg">Értékelések</p>
+                    </div>
+                    <div onclick="openMenu('usersTable')"
+                        class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                        <p class="text-center font-bold text-lg">Felhasználók</p>
+                    </div>
+                </div>
+
+                <div id="bookmarkTable" class="w-4/5">
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 text-left">Név</th>
+                                <th class="p-2 text-left">File ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < bookmarks.length; i++) { %>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><%= bookmarks[i][0]%></td>
+                                <td class="p-2 text-left"><a href="/file/<%=bookmarks[i][1]%>"><%=bookmarks[i][1]%></a></td>
+                            </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="commentTable" class="hidden w-4/5">
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 text-left">ID</th>
+                                <th class="p-2 text-left">Író</th>
+                                <th class="p-2 text-left">file ID</th>
+                                <th class="p-2 text-left w-3/5">Szöveg</th>
+                                <th class="p-2 text-left">Dátum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < comments.length; i++) { %>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><%=comments[i][0]%></td>
+                                <td class="p-2 text-left"><%=comments[i][1]%></td>
+                                <td class="p-2 text-left"><a href="/file/<%=comments[i][2]%>"><%=comments[i][2]%></a></td>
+                                <td class="p-2 text-left"><%=comments[i][3]%></td>
+                                <td class="p-2 text-left"><%=new Date(comments[i][4]).toLocaleString('default', {
+                                    year: 'numeric' , month: 'long' , day: '2-digit' , hour: '2-digit' ,
+                                    minute: '2-digit' , second: '2-digit' })%></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="fileTable" class="hidden w-4/5">
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 text-left">ID</th>
+                                <th class="p-2 text-left">Szülő ID</th>
+                                <th class="p-2 text-left">Tulajdonos</th>
+                                <th class="p-2 text-left">File név</th>
+                                <th class="p-2 text-left">Láthatóság</th>
+                                <th class="p-2 text-left">Létrehozás Dátuma</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < files.length; i++) { %>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><a href="/file/<%=files[i][0]%>"><%=files[i][0]%></a></td>
+                                <td class="p-2 text-left"><a href="/explorer/<%=files[i][1]%>"><%=files[i][1]%></td>
+                                <td class="p-2 text-left"><%=files[i][2]%></a></td>
+                                <td class="p-2 text-left"><%=files[i][3]%></td>
+                                <td class="p-2 text-left"><%=files[i][4]%></td>
+                                <td class="p-2 text-left"><%=new Date(comments[i][4]).toLocaleString('default', {
+                                    year: 'numeric' , month: 'long' , day: '2-digit' , hour: '2-digit' ,
+                                    minute: '2-digit' , second: '2-digit' })%></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="fileshareTable" class="hidden w-4/5">
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 text-left">Felhasználónév</th>
+                                <th class="p-2 text-left">File ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < fileshares.length; i++) { %>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><%= fileshares[i][0]%></td>
+                                <td class="p-2 text-left"><a href="/file/<%=fileshares[i][1]%>"><%=fileshares[i][1]%></a></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="folderTable" class="hidden w-4/5">
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 text-left">ID</th>
+                                <th class="p-2 text-left">Mappa név</th>
+                                <th class="p-2 text-left">Szülő ID (mappa)</th>
+                                <th class="p-2 text-left">Tulajdonos</th>
+                                <th class="p-2 text-left">Láthatóság</th>
+                                <th class="p-2 text-left">Létrehozás Dátuma</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < folders.length; i++) { %>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><a href="/explorer/<%=folders[i][0]%>"><%=folders[i][0]%></a></td>
+                                <td class="p-2 text-left"><%=folders[i][1]%></td>
+                                <td class="p-2 text-left"><%=folders[i][2]%></td>
+                                <td class="p-2 text-left"><%=folders[i][3]%></td>
+                                <td class="p-2 text-left"><%=folders[i][5]%></td>
+                                <td class="p-2 text-left"><%=new Date(folders[i][4]).toLocaleString('default', {
+                                    year: 'numeric' , month: 'long' , day: '2-digit' , hour: '2-digit' ,
+                                    minute: '2-digit' , second: '2-digit' })%></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="foldershareTable" class="hidden w-4/5">
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 text-left">Felhasználónév</th>
+                                <th class="p-2 text-left">Folder ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < foldershares.length; i++) { %>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><%=foldershares[i][0]%></td>
+                                <td class="p-2 text-left"><a href="/explorer/<%=foldershares[i][1]%>"><%=foldershares[i][1]%></a></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="ratingTable" class="hidden w-4/5">
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 text-left">Felhasználónév</th>
+                                <th class="p-2 text-left">File ID</th>
+                                <th class="p-2 text-left">Értékelés</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < ratings.length; i++) { %>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><%= ratings[i][0]%></td>
+                                <td class="p-2 text-left"><a href="/file/<%= ratings[i][1]%>"><%= ratings[i][1]%></a></td>
+                                <td class="p-2 text-left"><%= ratings[i][2]%></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="usersTable" class="hidden w-4/5">
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 text-left">Felhasználónév</th>
+                                <th class="p-2 text-left">Email cím</th>
+                                <th class="p-2 text-left">Jelszó</th>
+                                <th class="p-2 text-left">Típus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < users.length; i++) { %>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><%= users[i][0]%></td>
+                                <td class="p-2 text-left"><%= users[i][1]%></td>
+                                <td class="p-2 text-left"><%= users[i][2]%></td>
+                                <td class="p-2 text-left"><%= users[i][3]%></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+</body>
+
+</html>
