@@ -9,8 +9,14 @@ class FileshareDao {
         );
         console.log(result);
         con.commit();
+        const rowid = result.lastRowid;
+        result = await con.execute(
+            'SELECT * FROM "fileshare" WHERE ROWID = :lastRowid',
+            { lastRowid: rowid }
+        );
         con.close();
-        return;
+        console.log("Added new fileshare: " + result.rows[0] + "\n");
+        return result.rows[0];
     }
 
     async getAllFileShares() {
@@ -20,6 +26,7 @@ class FileshareDao {
             { }
         );
         con.close();
+        console.log("Selected all fileshares\n");
         return result.rows;
     }
 
@@ -30,6 +37,7 @@ class FileshareDao {
             { username: username }
         );
         con.close();
+        console.log("Selected fileshares of user " + username + "\n");
         return result.rows;
     }
 
@@ -40,6 +48,7 @@ class FileshareDao {
             { fileid: fileid }
         );
         con.close();
+        console.log("Selected fileshares of file with id " + fileid + "\n");
         return result.rows;
     }
 
@@ -50,6 +59,7 @@ class FileshareDao {
             { fileid: fileid, usr: username }
         );
         con.close();
+        console.log("Selected fileshare of user " + username + " and with id of " + fileid + "\n");
         return result.rows[0];
     }
 
@@ -62,6 +72,7 @@ class FileshareDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Deleted fileshare of user " + username + " and with id of " + fileid + "\n");
         return;
     }
 }

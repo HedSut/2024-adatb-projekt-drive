@@ -9,14 +9,21 @@ class UserDao {
         );
         console.log(result);
         con.commit();
+        const rowid = result.lastRowid;
+        result = await con.execute(
+            'SELECT * FROM "users" WHERE ROWID = :lastRowid',
+            { lastRowid: rowid }
+        );
         con.close();
-        return;
+        console.log("Added new user: " + result.rows[0] + "\n");
+        return result.rows[0];
     }
 
     async getAllUsers() {
         let con = await oracledb.getConnection();
         let result = await con.execute('SELECT * FROM "users"');
         con.close();
+        console.log("Selected all users\n");
         return result.rows;
     }
 
@@ -27,6 +34,7 @@ class UserDao {
             { usr: username }
         );
         con.close();
+        console.log("Selected user with username " + username + "\n");
         return result.rows[0];
     }
 
@@ -37,6 +45,7 @@ class UserDao {
             { email: email }
         );
         con.close();
+        console.log("Selected user with email " + email + "\n");
         return result.rows[0];
     }
 
@@ -49,6 +58,7 @@ class UserDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Updated email of user " + username + " to " + email + "\n");
         return;
     }
 
@@ -61,6 +71,7 @@ class UserDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Updated password of user " + username + "\n");
         return;
     }
 
@@ -73,6 +84,7 @@ class UserDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Deleted user " + username + "\n");
         return;
     }
 }

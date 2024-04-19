@@ -9,8 +9,14 @@ class CommentDao {
         );
         console.log(result);
         con.commit();
+        const rowid = result.lastRowid;
+        result = await con.execute(
+            'SELECT * FROM "comment" WHERE ROWID = :lastRowid',
+            { lastRowid: rowid }
+        );
         con.close();
-        return;
+        console.log("Added new comment: " + result.rows[0] + "\n");
+        return result.rows[0];
     }
 
     async getAllComments() {
@@ -20,6 +26,7 @@ class CommentDao {
             { }
         );
         con.close();
+        console.log("Selected all comments\n");
         return result.rows;
     }
 
@@ -30,6 +37,7 @@ class CommentDao {
             { fileid: fileid }
         );
         con.close();
+        console.log("Selected comments of file " + fileid + "\n");
         return result.rows;
     }
 
@@ -41,6 +49,7 @@ class CommentDao {
         );
         con.commit();
         con.close();
+        console.log("Selected comment with id " + id + "\n");
         return result.rows[0];
     }
 
@@ -53,6 +62,7 @@ class CommentDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Deleted comment with id " + id + "\n");
         return;
     }
 }

@@ -9,8 +9,14 @@ class RatingDao {
         );
         console.log(result);
         con.commit();
+        const rowid = result.lastRowid;
+        result = await con.execute(
+            'SELECT * FROM "rating" WHERE ROWID = :lastRowid',
+            { lastRowid: rowid }
+        );
         con.close();
-        return;
+        console.log("Added new rating: " + result.rows[0] + "\n");
+        return result.rows[0];
     }
 
     async getAllRatings() {
@@ -30,6 +36,7 @@ class RatingDao {
             { fileid: fileid }
         );
         con.close();
+        console.log("Selected ratings of file with id " + fileid + "\n");
         return result.rows[0];
     }
 
@@ -42,6 +49,7 @@ class RatingDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Updated rating of user " + username + " and file with id " + fileid + " to " + rating + "\n");
         return;
     }
 
@@ -54,6 +62,7 @@ class RatingDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Deleted rating of user " + username + " and file with id " + fileid + "\n");
         return;
     }
 }

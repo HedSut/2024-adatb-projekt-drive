@@ -19,6 +19,7 @@ class FileDao {
             { lastRowid: rowid }
         );
         con.close();
+        console.log("Added new file: " + result.rows[0] + "\n");
         return result.rows[0];
     }
 
@@ -26,6 +27,7 @@ class FileDao {
         let con = await oracledb.getConnection();
         let result = await con.execute('SELECT * FROM "file"');
         con.close();
+        console.log("Selected all files\n");
         return result.rows;
     }
 
@@ -36,6 +38,7 @@ class FileDao {
             { parentid: parentid }
         );
         con.close();
+        console.log("Selected children files of folder with id " + parentid + "\n");
         return result.rows;
     }
 
@@ -46,6 +49,7 @@ class FileDao {
             {pb: "public"}
         );
         con.close();
+        console.log("Selected all public files\n");
         return result.rows;
     }
 
@@ -56,6 +60,7 @@ class FileDao {
             { fileid: fileid }
         );
         con.close();
+        console.log("Selected file with id " + fileid + "\n");
         return result.rows[0];
     }
 
@@ -68,6 +73,7 @@ class FileDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Updated name of file with id " + fileid + " to " + newname + "\n");
         return;
     }
 
@@ -80,6 +86,7 @@ class FileDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Updated parent of file with id " + fileid + " to " + parentid + "\n");
         return;
     }
 
@@ -92,6 +99,7 @@ class FileDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Updated visibility of file with id " + fileid + " to " + visibility + "\n");
         return;
     }
 
@@ -104,6 +112,7 @@ class FileDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Deleted file with id " + fileid + "\n");
         return;
     }
 }

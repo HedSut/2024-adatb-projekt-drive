@@ -15,8 +15,8 @@ class BookmarkDao {
             { lastRowid: rowid }
         );
         con.close();
-        console.log("Added new bookmark: " + result)
-        return result;
+        console.log("Added new bookmark: " + result.rows[0] + "\n");
+        return result.rows[0];
     }
 
     async getAllBookmarks() {
@@ -26,6 +26,7 @@ class BookmarkDao {
             { }
         );
         con.close();
+        console.log("Selected all bookmarks\n");
         return result.rows;
     }
 
@@ -36,6 +37,7 @@ class BookmarkDao {
             { username: username }
         );
         con.close();
+        console.log("Selected bookmarks of user " + username + "\n");
         return result.rows;
     }
 
@@ -46,6 +48,7 @@ class BookmarkDao {
             { fileid: fileid }
         );
         con.close();
+        console.log("Selected bookmarks of file " + fileid + "\n");
         return result.rows;
     }
 
@@ -58,6 +61,7 @@ class BookmarkDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Deleted bookmark of user " + username + " and file " + fileid + "\n");
         return;
     }
 }
