@@ -3,10 +3,12 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { secret, userAuth } = require("../config/auth");
 const mime = require("mime");
+const UserDao = require("../dao/user-dao");
 const FileDao = require("../dao/file-dao");
 const FileshareDao = require("../dao/fileshare-dao");
 const RatingsDao = require("../dao/rating-dao");
 const CommentDao = require("../dao/comment-dao");
+const fs = require("fs/promises");
 
 router.get("/file/:id", async (req, res) => {
     const token = req.cookies.jwt;
@@ -212,6 +214,45 @@ router.get("/download/:id", async (req, res) => {
         maxAge: 1000,
     });
     return res.redirect("/");
+});
+
+
+router.get("/deletefile", async (req, res) => {
+    const token = req.cookies.jwt;
+    const msg = req.cookies.msg;
+    const { fileid } = req.body;
+    const { currentFolder } = req.body;
+    var username;
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+
+    const file = await new FileDao().getFile(fileid);
+
+    if (file[2] != username) {
+        res.cookie("msg", "Nincs engedélyed a fájl törléséhez!", {
+            httpOnly: true,
+            maxAge: 1000,
+        });
+        return res.redirect("/explorer/" + currentFolder);
+    }
+
+    const filename = file[3];
+    let extension = filename.split(".");
+    extension = extension[extension.length - 1];
+    var filepath = "./files/" + fileid + "." + extension;
+
+    await fs.unlink(filepath);
+    await new FileDao().deleteFile(fileid);
+
+    res.cookie("msg", "Fájl sikeresen törölve!", {
+        httpOnly: true,
+        maxAge: 1000,
+    });
+    return res.redirect("/explorer/" + currentFolder);
 });
 
 module.exports = router;

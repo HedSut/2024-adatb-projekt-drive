@@ -41,9 +41,6 @@ router.get("/admin", async (req, res) => {
     const foldershares = await new FoldershareDao().getAllFolderShares();
     const ratings = await new RatingDao().getAllRatings();
 
-    console.log("ratings: " + ratings);
-    console.log("foldershares: " + foldershares);
-    console.log("ratings: " + ratings);
     return res.render("admin", {
         users: users,
         bookmarks: bookmarks,
