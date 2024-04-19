@@ -37,7 +37,7 @@ class CommentDao {
             { fileid: fileid }
         );
         con.close();
-        console.log("Selected comments of file " + fileid + "\n");
+        console.log("Selected comments of file with id " + fileid + "\n");
         return result.rows;
     }
 

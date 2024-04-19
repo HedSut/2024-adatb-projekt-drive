@@ -216,43 +216,4 @@ router.get("/download/:id", async (req, res) => {
     return res.redirect("/");
 });
 
-
-router.get("/deletefile", async (req, res) => {
-    const token = req.cookies.jwt;
-    const msg = req.cookies.msg;
-    const { fileid } = req.body;
-    const { currentFolder } = req.body;
-    var username;
-
-    if (token) {
-        jwt.verify(token, secret, (err, decodedToken) => {
-            username = decodedToken.username;
-        });
-    }
-
-    const file = await new FileDao().getFile(fileid);
-
-    if (file[2] != username) {
-        res.cookie("msg", "Nincs engedélyed a fájl törléséhez!", {
-            httpOnly: true,
-            maxAge: 1000,
-        });
-        return res.redirect("/explorer/" + currentFolder);
-    }
-
-    const filename = file[3];
-    let extension = filename.split(".");
-    extension = extension[extension.length - 1];
-    var filepath = "./files/" + fileid + "." + extension;
-
-    await fs.unlink(filepath);
-    await new FileDao().deleteFile(fileid);
-
-    res.cookie("msg", "Fájl sikeresen törölve!", {
-        httpOnly: true,
-        maxAge: 1000,
-    });
-    return res.redirect("/explorer/" + currentFolder);
-});
-
 module.exports = router;

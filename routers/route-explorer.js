@@ -214,13 +214,6 @@ router.post("/uploadfile", async (req, res) => {
     extension = extension[extension.length - 1];
 
     await uploadedFile.mv("./files/" + record[0] + "." + extension);
-
-    console.log("Fájl feltöltve: ");
-    console.log("new record: " + record);
-    console.log("filename: " + filename);
-    console.log("extension: " + extension);
-    console.log("\n\n\n");
-
     return res.redirect("/explorer/" + currentFolder);
 });
 
@@ -230,4 +223,103 @@ router.post("/exitfolder", async (req, res) => {
 
     return res.redirect("/explorer/" + parentfolder[2]);
 });
+
+async function FindChildFilesRecursive(parentid) {
+    let fileids = [];
+    const folders = await new FolderDao().getChildFolders(parentid);
+    const files = await new FileDao().getChildrenFiles(parentid);
+
+    if (folders.length != 0) {
+        for (let i = 0; i < folders.length; i++) {
+            fileids.push(...(await FindChildFilesRecursive(folders[i][0])));
+        }
+    }
+
+    if (files.length != 0) {
+        for (let i = 0; i < files.length; i++) {
+            fileids.push(files[i][0]);
+        }
+    }
+
+    return fileids;
+}
+
+async function DeleteFile(username, fileid) {
+    let msg = "Fájl sikeresen törölve!";
+    const file = await new FileDao().getFile(fileid);
+
+    if (file[2] != username) {
+        msg = "Nincs engedélyed a fájl törléséhez!";
+        return msg;
+    }
+
+    const filename = file[3];
+    let extension = filename.split(".");
+    extension = extension[extension.length - 1];
+    let filepath = "./files/" + id + "." + extension;
+
+    await fs.unlink(filepath);
+    return msg;
+}
+
+router.post("/delete", async (req, res) => {
+    const token = req.cookies.jwt;
+    const { id } = req.body;
+    const { currentFolder } = req.body;
+    const { deletetype } = req.body;
+    let username;
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+
+
+    if (deletetype == "folder") {
+        const folder = await new FolderDao().getFolder(id);
+
+        if (folder[3] != username) {
+            res.cookie("msg", "Nincs engedélyed a mappa törléséhez!", {
+                httpOnly: true,
+                maxAge: 1000,
+            });
+            return res.redirect("/explorer/" + currentFolder);
+        }
+
+        const fileids = await FindChildFilesRecursive(id);
+        if (fileids.length != 0) {
+            for (let i = 0; i < fileids.length; i++) {
+                await DeleteFile(username, fileids[i]);
+            }
+        }
+
+        await new FolderDao().deleteFolder(id);
+
+        res.cookie("msg", "Mappa sikeresen törölve!", {
+            httpOnly: true,
+            maxAge: 1000,
+        });
+        return res.redirect("/explorer/" + currentFolder);
+    } 
+    else if (deletetype == "file") {
+        let msg = await DeleteFile(username, id);
+        await new FileDao().deleteFile(id);
+
+        res.cookie("msg", msg, {
+            httpOnly: true,
+            maxAge: 1000,
+        });
+        return res.redirect("/explorer/" + currentFolder);
+    } 
+
+
+    res.cookie("msg", "deletetype nem jó!", {
+        httpOnly: true,
+        maxAge: 1000,
+    });
+    return res.redirect("/explorer/" + currentFolder);
+});
+
+
 module.exports = router;
