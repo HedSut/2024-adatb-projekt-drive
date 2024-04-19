@@ -13,6 +13,16 @@ class FileshareDao {
         return;
     }
 
+    async getAllFileShares() {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "fileshare"',
+            { }
+        );
+        con.close();
+        return result.rows;
+    }
+
     async getUserFileshares(username) {
         let con = await oracledb.getConnection();
         let result = await con.execute(

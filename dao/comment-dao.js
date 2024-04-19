@@ -2,7 +2,6 @@ const oracledb = require("oracledb");
 
 class CommentDao {
     async addComment(author, fileid, text) {
-        // TODO: using trigger add current date when inserted
         let con = await oracledb.getConnection();
         let result = await con.execute(
             'INSERT INTO "comment" ("author", "file_id", "comment_text") VALUES (:authr, :fileid, :commentbody)',
@@ -12,6 +11,16 @@ class CommentDao {
         con.commit();
         con.close();
         return;
+    }
+
+    async getAllComments() {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "comment"',
+            { }
+        );
+        con.close();
+        return result.rows;
     }
 
     async getFileComments(fileid) {

@@ -13,6 +13,16 @@ class RatingDao {
         return;
     }
 
+    async getAllRatings() {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "rating"',
+            { }
+        );
+        con.close();
+        return result.rows[0];
+    }
+
     async getFileRatings(fileid) {
         let con = await oracledb.getConnection();
         let result = await con.execute(

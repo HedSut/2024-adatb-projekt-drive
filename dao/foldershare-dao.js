@@ -13,6 +13,16 @@ class FoldershareDao {
         return;
     }
 
+    async getAllFolderShares() {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "foldershare"',
+            { }
+        );
+        con.close();
+        return result.rows;
+    }
+
     async getFolderShare(username, folderid) {
         let con = await oracledb.getConnection();
         let result = await con.execute(

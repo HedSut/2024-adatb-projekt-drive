@@ -25,6 +25,16 @@ class FolderDao {
         return;
     }
 
+    async getAllFolders() {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "folder"',
+            { }
+        );
+        con.close();
+        return result.rows;
+    }
+
     async getUserRoot(username) {
         let con = await oracledb.getConnection();
         let result = await con.execute(

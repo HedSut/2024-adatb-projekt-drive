@@ -1,7 +1,7 @@
 const oracledb = require("oracledb");
 
 class BookmarkDao {
-    async addFileshare(username, fileid) {
+    async addBookmark(username, fileid) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
             'INSERT INTO "bookmark" VALUES (:username, :fileid)',
@@ -9,8 +9,24 @@ class BookmarkDao {
         );
         console.log(result);
         con.commit();
+        const rowid = result.lastRowid;
+        result = await con.execute(
+            'SELECT * FROM "bookmark" WHERE ROWID = :lastRowid',
+            { lastRowid: rowid }
+        );
         con.close();
-        return;
+        console.log("Added new bookmark: " + result)
+        return result;
+    }
+
+    async getAllBookmarks() {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "bookmark"',
+            { }
+        );
+        con.close();
+        return result.rows;
     }
 
     async getUserBookmarks(username) {
