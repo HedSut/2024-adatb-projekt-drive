@@ -9,8 +9,14 @@ class FolderDao {
         );
         console.log(result);
         con.commit();
+        const rowid = result.lastRowid;
+        result = await con.execute(
+            'SELECT * FROM "folder" WHERE ROWID = :lastRowid',
+            { lastRowid: rowid }
+        );
         con.close();
-        return;
+        console.log("Added new folder: " + result.rows[0] + "\n");
+        return result.rows[0];
     }
 
     async addRootFolder(owner) {
@@ -21,8 +27,14 @@ class FolderDao {
         );
         console.log(result);
         con.commit();
+        const rowid = result.lastRowid;
+        result = await con.execute(
+            'SELECT * FROM "folder" WHERE ROWID = :lastRowid',
+            { lastRowid: rowid }
+        );
         con.close();
-        return;
+        console.log("Added new root folder: " + result.rows[0] + "\n");
+        return result.rows[0];
     }
 
     async getAllFolders() {
@@ -32,6 +44,7 @@ class FolderDao {
             { }
         );
         con.close();
+        console.log("Selected all folders\n");
         return result.rows;
     }
 
@@ -42,6 +55,7 @@ class FolderDao {
             { usr: username }
         );
         con.close();
+        console.log("Selected root folder of user" + username + "\n");
         return result.rows[0];
     }
 
@@ -52,6 +66,7 @@ class FolderDao {
             { folderid: id }
         );
         con.close();
+        console.log("Selected folder with id " + id + "\n");
         return result.rows[0];
     }
 
@@ -62,6 +77,7 @@ class FolderDao {
             { folderid: parentid }
         );
         con.close();
+        console.log("Selected child folders of folder with id " + parentid + "\n");
         return result.rows;
     }
 
@@ -72,6 +88,7 @@ class FolderDao {
             { pb: "public" }
         );
         con.close();
+        console.log("Selected all public folders\n");
         return result.rows;
     }
 
@@ -83,6 +100,7 @@ class FolderDao {
         );
         con.commit();
         con.close();
+        console.log("Updated folder name of folder with id " + id + " to " + newname + "\n");
         return;
     }
 
@@ -95,6 +113,7 @@ class FolderDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Updated folder visibility of folder with id " + id + " to " + visibility + "\n");
         return;
     }
 
@@ -107,6 +126,7 @@ class FolderDao {
         console.log(result);
         con.commit();
         con.close();
+        console.log("Deleted folder with id " + id + "\n");
         return;
     }
 }
