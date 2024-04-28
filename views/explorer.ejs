@@ -17,7 +17,7 @@
 		<%- include('./navbar.ejs'); %>
 			<!-- Content-->
 			<div class="w-4/5 bg-white-500 p-10">
-				<% if(type != "root") {%>
+				<% if(type != "root" && type != "bookmarks") {%>
 				<form action="/exitfolder" method="post">
 					<input type="hidden" name="currentFolder" value="<%= currentFolder[0] %>">
 					<button type="submit">                                <img src="/arrow.svg"
