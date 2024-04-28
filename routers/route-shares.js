@@ -54,7 +54,7 @@ router.post("/addshare", async (req, res) => {
 });
 
 
-router.post("deleteshare", async (req, res) => {
+router.post("/deleteshare", async (req, res) => {
     let { type } = req.body;
     let { currentFolder } = req.body;
     let { id } = req.body;
