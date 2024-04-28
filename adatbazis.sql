@@ -73,7 +73,7 @@ CREATE TABLE "rating" (
 CREATE TABLE "log" (
     "id" INTEGER GENERATED ALWAYS as IDENTITY PRIMARY KEY,
     "date" DATE DEFAULT SYSDATE NOT NULL,
-    "table" VARCHAR(10) NOT NULL,
+    "table" VARCHAR(25) NOT NULL,
     "col" VARCHAR(20),
     "row" VARCHAR(100),
     "old_data" VARCHAR(256),

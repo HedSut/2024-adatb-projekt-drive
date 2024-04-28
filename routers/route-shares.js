@@ -7,10 +7,16 @@ const FileShareDao = require("../dao/fileshare-dao");
 const FolderShareDao = require("../dao/foldershare-dao");
 
 router.post("/addshare", async (req, res) => {
+    const token = req.cookies.jwt;
+    const msg = req.cookies.msg;
+    
     let { type } = req.body;
     let { currentFolder } = req.body;
     let { id } = req.body;
     let { user } = req.body;
+
+    console.log(currentFolder)
+    console.log(id)
 
     if (token) {
         jwt.verify(token, secret, (err, decodedToken) => {
@@ -55,6 +61,9 @@ router.post("/addshare", async (req, res) => {
 
 
 router.post("/deleteshare", async (req, res) => {
+    const token = req.cookies.jwt;
+    const msg = req.cookies.msg;
+
     let { type } = req.body;
     let { currentFolder } = req.body;
     let { id } = req.body;

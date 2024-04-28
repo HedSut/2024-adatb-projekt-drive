@@ -31,6 +31,7 @@ router.get("/explorer/:id", async (req, res) => {
     var currentFolder;
     var files;
     var folders;
+    var type;
     if (folderid == "root") {
         currentFolder = await new FolderDao().getUserRoot(username);
         if (currentFolder == null) {
@@ -42,6 +43,7 @@ router.get("/explorer/:id", async (req, res) => {
         }
         folders = await new FolderDao().getChildFolders(currentFolder[0]);
         files = await new FileDao().getChildrenFiles(currentFolder[0]);
+        type = "root"
     } else if (folderid == "bookmarks") {
         folders = [];
         const bookmarks = await new BookmarkDao().getUserBookmarks(username);
@@ -55,6 +57,7 @@ router.get("/explorer/:id", async (req, res) => {
             currentFolder: ['nah'],
             msg: msg,
             username: username,
+            type: "bookmarks"
         });
     } else {
         currentFolder = await new FolderDao().getFolder(folderid);
@@ -67,6 +70,7 @@ router.get("/explorer/:id", async (req, res) => {
         }
         folders = await new FolderDao().getChildFolders(currentFolder[0]);
         files = await new FileDao().getChildrenFiles(currentFolder[0]);
+        type = "normal"
     }
 
 
@@ -77,6 +81,7 @@ router.get("/explorer/:id", async (req, res) => {
             currentFolder: currentFolder,
             msg: msg,
             username: username,
+            type: type
         });
     }
 
@@ -88,6 +93,7 @@ router.get("/explorer/:id", async (req, res) => {
                 currentFolder: currentFolder,
                 msg: msg,
                 username: username,
+                type: type
             });
         }
 
@@ -102,6 +108,7 @@ router.get("/explorer/:id", async (req, res) => {
                 currentFolder: currentFolder,
                 msg: msg,
                 username: username,
+                type: type
             });
         }
     }

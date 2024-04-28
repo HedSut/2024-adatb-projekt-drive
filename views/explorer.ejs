@@ -17,11 +17,13 @@
 		<%- include('./navbar.ejs'); %>
 			<!-- Content-->
 			<div class="w-4/5 bg-white-500 p-10">
+				<% if(type != "root") {%>
 				<form action="/exitfolder" method="post">
 					<input type="hidden" name="currentFolder" value="<%= currentFolder[0] %>">
 					<button type="submit">                                <img src="/arrow.svg"
 						class="shadow-md w-10 p-2 rotate-90 rounded-md hover:bg-gray-300 duration-300"></button>
 				</form>
+				<% } %>
 				<p class="mb-5 font-bold">
 					<%=currentFolder[1]%>
 				</p>
@@ -83,20 +85,18 @@
 					</button>
 				</form>
 
-				<form class="flex flex-col" action="/uploadfile" method="post" enctype="multipart/form-data">
-					<div class="flex w-full">
-						<input name="uploadedFile" type="file" class="w-full cursor-pointer mt-3 mb-3 rounded-md font-bold
-            file:h-10 file:border-none file:bg-gray-700 file:text-white file:font-normal
-            bg-gray-100 hover:bg-gray-300 transition-color duration-300" />
-					</div>
-
+				<% if (type != "root") {%>
+				<form class="flex flex-row mt-5" action="/addshare" method="post">
+					<input type="hidden" name="type" value="folder">
 					<input type="hidden" name="currentFolder" value="<%= currentFolder[0] %>">
-
-					<button type="submit" name="submit" id=""
-						class="cursor-pointer p-2 rounded-md shadow-md font-bold hover:bg-gray-300 transition-color duration-300">
-						Feltöltés
+					<input type="hidden" name="id" value="<%= currentFolder[0]%>">
+					<button type="submit" class="cursor-pointer font-bold mr-2 w-1/5 p-2 rounded-md shadow-md hover:bg-gray-300 transition-color duration-300">
+						Megosztás
 					</button>
+					<input type="text" placeholder="Felhasználónév" name="user"
+						class="shadow-md rounded-md w-4/5 mr-2 p-2 focus:outline-none focus:border focus:border-blue-500">
 				</form>
+				<% } %>
 			</div>
 	</div>
 
