@@ -70,6 +70,119 @@ CREATE TABLE "rating" (
     CONSTRAINT "rating_fileid_fk" FOREIGN KEY ("fileid") REFERENCES "file" ("id") ON DELETE CASCADE
 );
 
+CREATE TABLE "log" (
+    "id" INTEGER GENERATED ALWAYS as IDENTITY PRIMARY KEY,
+    "date" DATE DEFAULT SYSDATE NOT NULL,
+    "table" VARCHAR(10) NOT NULL,
+    "col" VARCHAR(20),
+    "row" VARCHAR(100),
+    "old_data" VARCHAR(256),
+    "new_data" VARCHAR(256),
+    "type" VARCHAR(10) NOT NULL,
+);
+
+CREATE OR REPLACE TRIGGER "log_users"
+AFTER INSERT OR UPDATE OR DELETE ON "users"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', NULL, :NEW.username, NULL, NULL, 'insert')
+    ELSIF UPDATING('email') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW.username, :OLD.email, :NEW.email, 'update')
+    ELSIF UPDATING('password') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW.username, :OLD.password, :NEW.password, 'update')
+    ELSIF UPDATING('usertype') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW.username, :OLD.usertype, :NEW.usertype, 'update')
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', NULL, :NEW.username, NULL, NULL, 'delete')
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_folder"
+AFTER INSERT OR UPDATE OR DELETE ON "folder"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, :NEW.id, NULL, NULL, 'insert')
+    ELSIF UPDATING('folder_name') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', 'folder_name', :NEW.id, :OLD.folder_name, :NEW.folder_name, 'update')
+    ELSIF UPDATING('visibility') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', 'visiblity', :NEW.id, :OLD.visibility, :NEW.visibility, 'update')
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, :NEW.username, NULL, NULL, 'delete')
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_file"
+AFTER INSERT OR UPDATE OR DELETE ON "file"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', NULL, :NEW.id, NULL, NULL, 'insert')
+    ELSIF UPDATING('file_name') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', 'file_name', :NEW.id, :OLD.folder_name, :NEW.folder_name, 'update')
+    ELSIF UPDATING('visibility') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', 'visiblity', :NEW.id, :OLD.visibility, :NEW.visibility, 'update')
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', NULL, :NEW.username, NULL, NULL, 'delete')
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_comment"
+AFTER INSERT OR DELETE ON "comment"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('comment', NULL, :NEW.id, NULL, NULL, 'insert')
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, :NEW.username, NULL, NULL, 'delete')
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_foldershare"
+AFTER INSERT OR DELETE ON "folder"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('foldershare', NULL, :NEW.username || " " || :NEW.folderid, NULL, NULL, 'insert')
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('foldershare', NULL, :NEW.username || " " || :NEW.folderid, NULL, NULL, 'delete')
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_fileshare"
+AFTER INSERT OR DELETE ON "fileshare"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'insert')
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'delete')
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_bookmark"
+AFTER INSERT OR DELETE ON "bookmark"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'insert')
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'delete')
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_rating"
+AFTER INSERT OR DELETE ON "rating"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'insert')
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'delete')
+    END IF;
+END;
+
 INSERT INTO "users" ("username", "email", "password") VALUES ('tesztelek0', 'tesztelek0@gmail.com', 'Dv3xG03h6YnydzocazTL8PicZi7jTFxABchoiHg3FKBH57f8Lf3XHPYWQlsrzxkY');
 INSERT INTO "users" ("username", "email", "password") VALUES ('tesztelek1', 'tesztelek1@gmail.com', '5DL3kfnHSIzSK7vTth65LpJ05AIJmwIF2u93Ul0gyV2MA2SwnVRgo48BtTs2hkss');
 INSERT INTO "users" ("username", "email", "password") VALUES ('tesztelek2', 'tesztelek2@gmail.com', 'aBmAQATMg1Cvr8aMOBdtwzH7A6Ys4Ppn8YLaAmp1j7nYKKIBsV9Xj0xjn2tTkJBF');

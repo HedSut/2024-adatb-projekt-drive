@@ -35,6 +35,7 @@ class UserDao {
         );
         con.close();
         console.log("Selected user with username " + username + "\n");
+        console.log(result.rows);
         return result.rows[0];
     }
 
