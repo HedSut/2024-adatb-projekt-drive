@@ -5,6 +5,8 @@ const { secret, userAuth } = require("../config/auth");
 const FolderDao = require("../dao/folder-dao");
 const FolderShareDao = require("../dao/foldershare-dao");
 const FileDao = require("../dao/file-dao");
+const BookmarkDao = require("../dao/bookmark-dao");
+const { AQ_DEQ_WAAQ_MSG_DELIV_MODE_PERSISTENTIT_FOREVER } = require("oracledb");
 
 router.get("/explorer/:id", async (req, res) => {
     const token = req.cookies.jwt;
@@ -26,25 +28,49 @@ router.get("/explorer/:id", async (req, res) => {
         return res.redirect("/");
     }
 
-    let currentFolder;
+    var currentFolder;
+    var files;
+    var folders;
     if (folderid == "root") {
         currentFolder = await new FolderDao().getUserRoot(username);
+        if (currentFolder == null) {
+            res.cookie("msg", "Nincs ilyen mappa!", {
+                httpOnly: true,
+                maxAge: 1000,
+            });
+            return res.redirect("/");
+        }
+        folders = await new FolderDao().getChildFolders(currentFolder[0]);
+        files = await new FileDao().getChildrenFiles(currentFolder[0]);
+    } else if (folderid == "bookmarks") {
+        folders = [];
+        const bookmarks = await new BookmarkDao().getUserBookmarks(username);
+        let files = [];
+        for (let i = 0; i < bookmarks.length; i++) {
+            files.push(await new FileDao().getFile(bookmarks[i][1]));
+        }
+        return res.render("explorer", {
+            folders: folders,
+            files: files,
+            currentFolder: ['nah'],
+            msg: msg,
+            username: username,
+        });
     } else {
         currentFolder = await new FolderDao().getFolder(folderid);
+        if (currentFolder == null) {
+            res.cookie("msg", "Nincs ilyen mappa!", {
+                httpOnly: true,
+                maxAge: 1000,
+            });
+            return res.redirect("/");
+        }
+        folders = await new FolderDao().getChildFolders(currentFolder[0]);
+        files = await new FileDao().getChildrenFiles(currentFolder[0]);
     }
 
-    if (currentFolder == null) {
-        res.cookie("msg", "Nincs ilyen mappa!", {
-            httpOnly: true,
-            maxAge: 1000,
-        });
-        return res.redirect("/");
-    }
 
-    folders = await new FolderDao().getChildFolders(currentFolder[0]);
-    files = await new FileDao().getChildrenFiles(currentFolder[0]);
-
-    if (currentFolder[5] == "public") {
+    if (currentFolder != null && currentFolder[5] == "public") {
         return res.render("explorer", {
             folders: folders,
             files: files,
@@ -55,7 +81,7 @@ router.get("/explorer/:id", async (req, res) => {
     }
 
     if (username) {
-        if (currentFolder[3] == username) {
+        if (currentFolder != null && currentFolder[3] == username) {
             return res.render("explorer", {
                 folders: folders,
                 files: files,
