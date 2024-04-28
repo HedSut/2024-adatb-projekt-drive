@@ -10,6 +10,7 @@ const FileshareDao = require("../dao/fileshare-dao");
 const FolderDao = require("../dao/folder-dao");
 const FoldershareDao = require("../dao/foldershare-dao");
 const RatingDao = require("../dao/rating-dao");
+const LogDao = require("../dao/log-dao");
 
 router.get("/admin", async (req, res) => {
     const token = req.cookies.jwt;
@@ -40,6 +41,7 @@ router.get("/admin", async (req, res) => {
     const folders = await new FolderDao().getAllFolders();
     const foldershares = await new FoldershareDao().getAllFolderShares();
     const ratings = await new RatingDao().getAllRatings();
+    const logs = await new LogDao().getLogs();
 
     return res.render("admin", {
         users: users,
@@ -50,6 +52,7 @@ router.get("/admin", async (req, res) => {
         folders: folders,
         foldershares: foldershares,
         ratings: ratings,
+        logs: logs,
         username: username,
         msg: msg
     });
