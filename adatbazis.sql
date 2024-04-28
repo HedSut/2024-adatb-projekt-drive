@@ -78,7 +78,7 @@ CREATE TABLE "log" (
     "row" VARCHAR(100),
     "old_data" VARCHAR(256),
     "new_data" VARCHAR(256),
-    "type" VARCHAR(10) NOT NULL,
+    "type" VARCHAR(10) NOT NULL
 );
 
 CREATE OR REPLACE TRIGGER "log_users"
@@ -86,15 +86,15 @@ AFTER INSERT OR UPDATE OR DELETE ON "users"
 FOR EACH ROW
 BEGIN
     IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', NULL, :NEW.username, NULL, NULL, 'insert')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', NULL, :NEW."username", NULL, NULL, 'insert');
     ELSIF UPDATING('email') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW.username, :OLD.email, :NEW.email, 'update')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW."username", :OLD."email", :NEW."email", 'update');
     ELSIF UPDATING('password') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW.username, :OLD.password, :NEW.password, 'update')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW."username", :OLD."password", :NEW."password", 'update');
     ELSIF UPDATING('usertype') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW.username, :OLD.usertype, :NEW.usertype, 'update')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW."username", :OLD."usertype", :NEW."usertype", 'update');
     ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', NULL, :NEW.username, NULL, NULL, 'delete')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', NULL, :OLD."username", NULL, NULL, 'delete');
     END IF;
 END;
 
@@ -103,13 +103,13 @@ AFTER INSERT OR UPDATE OR DELETE ON "folder"
 FOR EACH ROW
 BEGIN
     IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, :NEW.id, NULL, NULL, 'insert')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, TO_CHAR(:NEW."id"), NULL, NULL, 'insert');
     ELSIF UPDATING('folder_name') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', 'folder_name', :NEW.id, :OLD.folder_name, :NEW.folder_name, 'update')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', 'folder_name', TO_CHAR(:NEW."id"), :OLD."folder_name", :NEW."folder_name", 'update');
     ELSIF UPDATING('visibility') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', 'visiblity', :NEW.id, :OLD.visibility, :NEW.visibility, 'update')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', 'visiblity', TO_CHAR(:NEW."id"), :OLD."visibility", :NEW."visibility", 'update');
     ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, :NEW.username, NULL, NULL, 'delete')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, TO_CHAR(:OLD."id"), NULL, NULL, 'delete');
     END IF;
 END;
 
@@ -118,13 +118,13 @@ AFTER INSERT OR UPDATE OR DELETE ON "file"
 FOR EACH ROW
 BEGIN
     IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', NULL, :NEW.id, NULL, NULL, 'insert')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', NULL, TO_CHAR(:NEW."id"), NULL, NULL, 'insert');
     ELSIF UPDATING('file_name') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', 'file_name', :NEW.id, :OLD.folder_name, :NEW.folder_name, 'update')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', 'file_name', TO_CHAR(:NEW."id"), :OLD."file_name", :NEW."file_name", 'update');
     ELSIF UPDATING('visibility') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', 'visiblity', :NEW.id, :OLD.visibility, :NEW.visibility, 'update')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', 'visiblity', TO_CHAR(:NEW."id"), :OLD."visibility", :NEW."visibility", 'update');
     ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', NULL, :NEW.username, NULL, NULL, 'delete')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', NULL, TO_CHAR(:OLD."id"), NULL, NULL, 'delete');
     END IF;
 END;
 
@@ -133,20 +133,20 @@ AFTER INSERT OR DELETE ON "comment"
 FOR EACH ROW
 BEGIN
     IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('comment', NULL, :NEW.id, NULL, NULL, 'insert')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('comment', NULL, TO_CHAR(:NEW."id"), NULL, NULL, 'insert');
     ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, :NEW.username, NULL, NULL, 'delete')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, TO_CHAR(:OLD."id"), NULL, NULL, 'delete');
     END IF;
 END;
 
 CREATE OR REPLACE TRIGGER "log_foldershare"
-AFTER INSERT OR DELETE ON "folder"
+AFTER INSERT OR DELETE ON "foldershare"
 FOR EACH ROW
 BEGIN
     IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('foldershare', NULL, :NEW.username || " " || :NEW.folderid, NULL, NULL, 'insert')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('foldershare', NULL, :NEW."username" || ' ' || :NEW."folderid", NULL, NULL, 'insert');
     ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('foldershare', NULL, :NEW.username || " " || :NEW.folderid, NULL, NULL, 'delete')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('foldershare', NULL, :OLD."username" || ' ' || :OLD."folderid", NULL, NULL, 'delete');
     END IF;
 END;
 
@@ -155,9 +155,9 @@ AFTER INSERT OR DELETE ON "fileshare"
 FOR EACH ROW
 BEGIN
     IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'insert')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
     ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'delete')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
     END IF;
 END;
 
@@ -166,9 +166,9 @@ AFTER INSERT OR DELETE ON "bookmark"
 FOR EACH ROW
 BEGIN
     IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'insert')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
     ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'delete')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
     END IF;
 END;
 
@@ -177,9 +177,9 @@ AFTER INSERT OR DELETE ON "rating"
 FOR EACH ROW
 BEGIN
     IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'insert')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
     ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :NEW.username || " " || :NEW.fileid, NULL, NULL, 'delete')
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
     END IF;
 END;
 
