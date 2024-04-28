@@ -157,7 +157,7 @@ BEGIN
     IF INSERTING THEN
         INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
     ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :OLD."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
     END IF;
 END;
 
@@ -168,7 +168,7 @@ BEGIN
     IF INSERTING THEN
         INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
     ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :OLD."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
     END IF;
 END;
 
@@ -179,7 +179,7 @@ BEGIN
     IF INSERTING THEN
         INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
     ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :OLD."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
     END IF;
 END;
 

@@ -41,7 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!(event.target instanceof HTMLDivElement)) {
                 target = target.parentNode;
             }
-            document.getElementById("menuRenameId").innerHTML = target.id;
+            document.getElementById("menuRenameId").innerHTML = target.id;  
+            document.getElementById("id").value = target.id;
+            document.getElementById("deletetype").value = "folder";
 
             event.preventDefault(); // Prevent the default context menu
             const x = event.clientX;
@@ -59,7 +61,9 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!(event.target instanceof HTMLDivElement)) {
                 target = target.parentNode;
             }
-
+            
+            document.getElementById("id").value = target.id;
+            document.getElementById("deletetype").value = "file";
             event.preventDefault(); // Prevent the default context menu
             const x = event.clientX;
             const y = event.clientY;

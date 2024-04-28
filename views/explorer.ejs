@@ -115,10 +115,16 @@
 		<a href="download/" id="downloadButton" class="hidden block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Letöltés</a>
 		<a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Megnyitása</a>
 		<p class="hidden" id="menuRenameId"></p>
+
 		<a href="#" id="renameButton"
 			class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300"
 			onclick="changeName()">Átnevezés</a>
-		<a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Törlés</a>
+		<form action="/delete" method="post">
+			<input type="hidden" name="id" id="id" value="">
+			<input type="hidden" name="currentFolder" id="currentFolder" value="<%=currentFolder[0]%>">
+			<input type="hidden" name="deletetype" id="deletetype" value="">
+			<button type="submit" id="deleteButton" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 transition-color duration-300">Törlés</a>
+		</form>
 	</div>
 
 

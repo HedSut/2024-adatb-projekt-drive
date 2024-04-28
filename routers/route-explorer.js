@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const fs = require("fs").promises;
 const jwt = require("jsonwebtoken");
 const { secret, userAuth } = require("../config/auth");
 const FolderDao = require("../dao/folder-dao");
@@ -289,7 +290,7 @@ async function DeleteFile(username, fileid) {
     const filename = file[3];
     let extension = filename.split(".");
     extension = extension[extension.length - 1];
-    let filepath = "./files/" + id + "." + extension;
+    let filepath = "./files/" + fileid + "." + extension;
 
     await fs.unlink(filepath);
     return msg;
