@@ -51,7 +51,8 @@ router.post("/loginuser", async (req, res) => {
     } else {
         bcrypt.compare(password, user[2]).then(function (result) {
             if (result) {
-                const token = jwt.sign({ username: username }, secret);
+                admin = user[3] == "admin" ? true : false;
+                const token = jwt.sign({ username: username, admin: admin}, secret);
                 res.cookie("jwt", token, { httpOnly: true });
                 res.cookie("msg", "Sikeres bejelentkezés!", {
                     httpOnly: true,

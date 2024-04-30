@@ -44,6 +44,15 @@
 				<p class="text-center font-bold text-lg">Kijelentkezés</p>
 			</div>
 		</a>
+
+		<% if(admin) { %>
+			<a href="/admin">
+				<div
+					class="flex justify-center items-center h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+					<p class="text-center font-bold text-lg">Admin felület</p>
+				</div>
+			</a>
+		<%}%>
 	<% } %>
 
 	<% if (username==null) { %>
