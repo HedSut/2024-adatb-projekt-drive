@@ -4,7 +4,7 @@ class LogDao {
     async getLogs() {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'SELECT * FROM "log"',
+            'SELECT * FROM "log" ORDER BY "table", "date"',
             { }
         );
         con.close();

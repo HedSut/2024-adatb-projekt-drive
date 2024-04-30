@@ -18,40 +18,44 @@
                 <div class="flex flex-row justify-center w-full h-20 bg-white sticky top-0">
                     <div onclick="openMenu('bookmarkTable')"
                         class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-                        <p class="text-center font-bold text-lg">Könyvjelzők</p>
+                        <p class="text-center font-bold text-md">Könyvjelzők</p>
                     </div>
                     <div onclick="openMenu('commentTable')"
                         class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-                        <p class="text-center font-bold text-lg">Hozzászólások</p>
+                        <p class="text-center font-bold text-md">Hozzászólások</p>
                     </div>
                     <div onclick="openMenu('fileTable')"
                         class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-                        <p class="text-center font-bold text-lg">Fileok</p>
+                        <p class="text-center font-bold text-md">Fileok</p>
                     </div>
                     <div onclick="openMenu('fileshareTable')"
                         class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-                        <p class="text-center font-bold text-lg">File megosztások</p>
+                        <p class="text-center font-bold text-md">File megosztások</p>
                     </div>
                     <div onclick="openMenu('folderTable')"
                         class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-                        <p class="text-center font-bold text-lg">Mappák</p>
+                        <p class="text-center font-bold text-md">Mappák</p>
                     </div>
                     <div onclick="openMenu('foldershareTable')"
                         class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-                        <p class="text-center font-bold text-lg">Mappa megosztások</p>
+                        <p class="text-center font-bold text-md">Mappa megosztások</p>
                     </div>
                     <div onclick="openMenu('ratingTable')"
                         class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-                        <p class="text-center font-bold text-lg">Értékelések</p>
+                        <p class="text-center font-bold text-md">Értékelések</p>
                     </div>
                     <div onclick="openMenu('usersTable')"
                         class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-                        <p class="text-center font-bold text-lg">Felhasználók</p>
+                        <p class="text-center font-bold text-md">Felhasználók</p>
                     </div>
                     <div onclick="openMenu('statistics')"
-                    class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-                    <p class="text-center font-bold text-lg">Statisztikák</p>
-                </div>
+                        class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                        <p class="text-center font-bold text-md">Statisztikák</p>
+                    </div>
+                    <div onclick="openMenu('logs')"
+                        class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                    <p class="text-center font-bold text-md">Logok</p>
+                    </div>
                 </div>
 
                 <div id="bookmarkTable" class="w-4/5">
@@ -304,6 +308,39 @@
                             <tr class="bg-gray-400">
                                 <td class="p-2 text-left"><%= bookmarkStats[i][0]%></td>
                                 <td class="p-2 text-left"><%= bookmarkStats[i][1]%></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="logs" class="hidden w-4/5">
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 text-left">Log ID</th>
+                                <th class="p-2 text-left w-5">Dátum</th>
+                                <th class="p-2 text-left w-5">Tábla</th>
+                                <th class="p-2 text-left w-5">Oszlop</th>
+                                <th class="p-2 text-left">Sor (kulcs)</th>
+                                <th class="p-2 text-left max-w-20">Régi adat</th>
+                                <th class="p-2 text-left max-w-20">Új adat</th>
+                                <th class="p-2 text-left">Módosítás típusa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < logs.length; i++) { %>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><%= logs[i][0]%></td>
+                                <td class="p-2 text-left"><%= new Date(logs[i][1]).toLocaleString('default', {
+                                    year: 'numeric' , month: 'long' , day: '2-digit' , hour: '2-digit' ,
+                                    minute: '2-digit' , second: '2-digit' })%></td>
+                                <td class="p-2 text-left"><%= logs[i][2]%></td>
+                                <td class="p-2 text-left"><%= logs[i][3]%></td>
+                                <td class="p-2 text-left"><%= logs[i][4]%></td>
+                                <td class="p-2 text-left"><%= logs[i][5]%></td>
+                                <td class="p-2 text-left"><%= logs[i][6]%></td>
+                                <td class="p-2 text-left"><%= logs[i][7]%></td>
                             </tr>
                             <% } %>
                         </tbody>
