@@ -33,10 +33,11 @@ router.get("/file/:id", async (req, res) => {
 
     let rating = await new RatingsDao().getFileRatings(fileid);
     let comment = await new CommentDao().getFileComments(fileid);
+    //console.log(rating);
     if (file[4] == "public") {
         return res.render("file", {
             file: file,
-            rating: rating[0],
+            rating: rating,
             msg: msg,
             username: username,
             comment: comment,
@@ -214,6 +215,28 @@ router.get("/download/:id", async (req, res) => {
         maxAge: 1000,
     });
     return res.redirect("/");
+});
+
+router.post("/ratefile", async (req, res) => {
+    const token = req.cookies.jwt;
+    const {fileid, value} = req.body;
+    const ratingvalue = Number(value);
+    var username;
+    
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+
+    const rating = await new RatingsDao().getFileRating(username, fileid);
+    if (rating != null) {
+        return res.redirect("/file/" + fileid);
+    }
+
+    await new RatingsDao().addRating(username, fileid, ratingvalue);
+
+    return res.redirect("/file/" + fileid);
 });
 
 module.exports = router;

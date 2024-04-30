@@ -50,7 +50,8 @@
 
                         <div class="flex mt-5">
                             <form action="/ratefile" method="post">
-                                <input type="hidden" value="down">
+                                <input type="hidden" name="fileid" value="<%= file[0] %>">
+                                <input type="hidden" name="value" value="-1">
                                 <button type="submit">
                                     <img src="/arrow.svg"
                                         class="w-10 p-2 rounded-md bg-gray-300 hover:bg-gray-500 duration-300">
@@ -60,7 +61,8 @@
                                 <%= rating %>
                             </p>
                             <form action="/ratefile" method="post">
-                                <input type="hidden" value="up">
+                                <input type="hidden" name="fileid" value="<%= file[0] %>">
+                                <input type="hidden" name="value" value="1">
                                 <button type="submit">
                                     <img src="/arrow.svg"
                                         class="w-10 p-2 rotate-180 rounded-md bg-gray-300 hover:bg-gray-500 duration-300">
