@@ -41,6 +41,17 @@ class BookmarkDao {
         return result.rows;
     }
 
+    async getBookmark(username, fileid) {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "bookmark" WHERE "username" = :username AND "fileid" = :fileid',
+            { username: username, fileid: fileid }
+        );
+        con.close();
+        console.log("Selected bookmark of file with id " + fileid + " of user " + username + "\n");
+        return result.rows[0];
+    }
+
     async getFileBookmarks(fileid) {
         let con = await oracledb.getConnection();
         let result = await con.execute(

@@ -8,7 +8,9 @@ const FileDao = require("../dao/file-dao");
 const FileshareDao = require("../dao/fileshare-dao");
 const RatingsDao = require("../dao/rating-dao");
 const CommentDao = require("../dao/comment-dao");
+const BookmarkDao = require("../dao/bookmark-dao");
 const fs = require("fs/promises");
+const { waitForDebugger } = require("inspector");
 
 router.get("/file/:id", async (req, res) => {
     const token = req.cookies.jwt;
@@ -33,6 +35,7 @@ router.get("/file/:id", async (req, res) => {
 
     let rating = await new RatingsDao().getFileRatings(fileid);
     let comment = await new CommentDao().getFileComments(fileid);
+    let bookmark = await new BookmarkDao().getBookmark(username, fileid);
     //console.log(rating);
     if (file[4] == "public") {
         return res.render("file", {
@@ -41,6 +44,7 @@ router.get("/file/:id", async (req, res) => {
             msg: msg,
             username: username,
             comment: comment,
+            isBookmark: bookmark != null
         });
     }
 
@@ -52,6 +56,7 @@ router.get("/file/:id", async (req, res) => {
                 msg: msg,
                 username: username,
                 comment: comment,
+                isBookmark: bookmark != null
             });
         }
 
@@ -63,6 +68,7 @@ router.get("/file/:id", async (req, res) => {
                 msg: msg,
                 username: username,
                 comment: comment,
+                isBookmark: bookmark != null
             });
         }
     }
@@ -238,5 +244,35 @@ router.post("/ratefile", async (req, res) => {
 
     return res.redirect("/file/" + fileid);
 });
+
+router.post("/addbookmark", async (req, res) => {
+    const token = req.cookies.jwt;
+    const { fileid } = req.body;
+    var username;
+    
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+
+    await new BookmarkDao().addBookmark(username, fileid);
+    return res.redirect("/file/" + fileid);
+})
+
+router.post("/deletebookmark", async (req, res) => {
+    const token = req.cookies.jwt;
+    const { fileid } = req.body;
+    var username;
+    
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+
+    await new BookmarkDao().deleteBookmark(username, fileid);
+    return res.redirect("/file/" + fileid);
+})
 
 module.exports = router;
