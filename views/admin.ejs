@@ -249,10 +249,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-gray-400">
-                                <td class="p-2 text-left"><%= fileshareStats[0]%></td>
-                                <td class="p-2 text-left"><%= fileshareStats[1]%></td>
-                            </tr>
+                            <% for(let i = 0; i < fileshareStats.length; i++) { %>
+                                <tr class="bg-gray-400">
+                                    <td class="p-2 text-left"><%= fileshareStats[i][0]%></td>
+                                    <td class="p-2 text-left"><%= fileshareStats[i][1]%></td>
+                                </tr>
+                            <% } %>
                         </tbody>
                     </table>
 
@@ -264,10 +266,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <% for(let i = 0; i < foldershareStats.length; i++) { %>
                             <tr class="bg-gray-400">
-                                <td class="p-2 text-left"><%= foldershareStats[0]%></td>
-                                <td class="p-2 text-left"><%= foldershareStats[1]%></td>
+                                <td class="p-2 text-left"><%= foldershareStats[i][0]%></td>
+                                <td class="p-2 text-left"><%= foldershareStats[i][1]%></td>
                             </tr>
+                            <% } %>
                         </tbody>
                     </table>
 
@@ -279,10 +283,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <% for(let i = 0; i < ratingStats.length; i++) { %>
                             <tr class="bg-gray-400">
-                                <td class="p-2 text-left"><%= ratingStats[0]%></td>
-                                <td class="p-2 text-left"><%= ratingStats[1]%></td>
+                                <td class="p-2 text-left"><%= ratingStats[i][0]%></td>
+                                <td class="p-2 text-left"><%= ratingStats[i][1]%></td>
                             </tr>
+                            <% } %>
                         </tbody>
                     </table>
 
@@ -294,10 +300,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <% for(let i = 0; i < bookmarkStats.length; i++) { %>
                             <tr class="bg-gray-400">
-                                <td class="p-2 text-left"><%= bookmarkStats[0]%></td>
-                                <td class="p-2 text-left"><%= bookmarkStats[1]%></td>
+                                <td class="p-2 text-left"><%= bookmarkStats[i][0]%></td>
+                                <td class="p-2 text-left"><%= bookmarkStats[i][1]%></td>
                             </tr>
+                            <% } %>
                         </tbody>
                     </table>
                 </div>
