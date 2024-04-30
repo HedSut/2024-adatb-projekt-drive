@@ -32,11 +32,22 @@ class RatingDao {
     async getFileRatings(fileid) {
         let con = await oracledb.getConnection();
         let result = await con.execute(
-            'SELECT COUNT(*) FROM "rating" WHERE "fileid" = :fileid',
+            'SELECT SUM("rate") FROM "rating" WHERE "fileid" = :fileid',
             { fileid: fileid }
         );
         con.close();
         console.log("Selected ratings of file with id " + fileid + "\n");
+        return result.rows[0];
+    }
+
+    async getFileRating(username, fileid) {
+        let con = await oracledb.getConnection();
+        let result = await con.execute(
+            'SELECT * FROM "rating" WHERE "fileid" = :fileid AND "username" = :usern',
+            { fileid: fileid, usern: username }
+        );
+        con.close();
+        console.log("Selected ratings of file with id " + fileid + " of user " + username +"\n");
         return result.rows[0];
     }
 
