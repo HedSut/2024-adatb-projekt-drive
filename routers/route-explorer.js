@@ -7,7 +7,8 @@ const FolderDao = require("../dao/folder-dao");
 const FolderShareDao = require("../dao/foldershare-dao");
 const FileDao = require("../dao/file-dao");
 const BookmarkDao = require("../dao/bookmark-dao");
-const { AQ_DEQ_WAAQ_MSG_DELIV_MODE_PERSISTENTIT_FOREVER } = require("oracledb");
+const FileshareDao = require("../dao/fileshare-dao");
+const FoldershareDao = require("../dao/foldershare-dao");
 
 router.get("/explorer/:id", async (req, res) => {
     const token = req.cookies.jwt;
@@ -48,7 +49,7 @@ router.get("/explorer/:id", async (req, res) => {
     } else if (folderid == "bookmarks") {
         folders = [];
         const bookmarks = await new BookmarkDao().getUserBookmarks(username);
-        let files = [];
+        files = [];
         for (let i = 0; i < bookmarks.length; i++) {
             files.push(await new FileDao().getFile(bookmarks[i][1]));
         }
@@ -59,6 +60,27 @@ router.get("/explorer/:id", async (req, res) => {
             msg: msg,
             username: username,
             type: "bookmarks"
+        });
+    } else if (folderid == "shared") {
+        folders = [];
+        files = [];
+        const sharedfiles =  await new FileshareDao().getUserFileshares(username);
+        const sharedfolders = await new FolderShareDao().getUserFoldershares(username);
+        for (let i = 0; i < sharedfiles.length; i++) {
+            files.push(await new FileDao().getFile(sharedfiles[i]));
+        }
+
+        for (let i = 0; i < sharedfolders.length; i++) {
+            folders.push(await new FolderDao().getFolder(sharedfolders[i]));
+        }
+
+        return res.render("explorer", {
+            folders: folders,
+            files: files,
+            currentFolder: ['nah'],
+            msg: msg,
+            username: username,
+            type: "shares"
         });
     } else {
         currentFolder = await new FolderDao().getFolder(folderid);
