@@ -7,7 +7,7 @@ function openMenu(menu) {
                   "foldershareTable", 
                   "ratingTable", 
                   "usersTable",
-                  "logTable"
+                  "statistics"
                 ]
     let tableElements = []
     for(let i = 0; i < tables.length; i++) {

@@ -48,9 +48,9 @@
                         class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
                         <p class="text-center font-bold text-lg">Felhasználók</p>
                     </div>
-                    <div onclick="openMenu('logTable')"
+                    <div onclick="openMenu('statistics')"
                     class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
-                    <p class="text-center font-bold text-lg">Felhasználók</p>
+                    <p class="text-center font-bold text-lg">Statisztikák</p>
                 </div>
                 </div>
 
@@ -240,33 +240,65 @@
                     </table>
                 </div>
 
-                <div id="logTable" class="hidden w-4/5">
+                <div id="statistics" class="hidden w-4/5">
                     <table class="mt-20 table-auto rounded-t-md shadow w-full">
                         <thead class="h-10 rounded-t-md ">
                             <tr>
-                                <th class="p-2 text-left">Felhasználónév</th>
-                                <th class="p-2 text-left">Email cím</th>
-                                <th class="p-2 text-left">Jelszó</th>
-                                <th class="p-2 text-left">Típus</th>
+                                <th class="p-2 w-1/2 text-left">File name</th>
+                                <th class="p-2 w-1/2 text-left">Megosztások száma</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-
-                                </td>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><%= fileshares[0]%></td>
+                                <td class="p-2 text-left"><%= fileshares[1]%></td>
                             </tr>
                         </tbody>
-                        <!--
+                    </table>
+
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 w-1/2 text-left">Folder name</th>
+                                <th class="p-2 w-1/2 text-left">Megosztások száma</th>
+                            </tr>
+                        </thead>
                         <tbody>
                             <tr class="bg-gray-400">
-                                <td class="p-2 text-left"></td>
-                                <td class="p-2 text-left"></td>
-                                <td class="p-2 text-left"></td>
-                                <td class="p-2 text-left"></td>
+                                <td class="p-2 text-left"><%= foldershares[0]%></td>
+                                <td class="p-2 text-left"><%= foldershares[1]%></td>
                             </tr>
                         </tbody>
-                        -->
+                    </table>
+
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 w-1/2 text-left">File name</th>
+                                <th class="p-2 w-1/2 text-left">Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><%= ratings[0]%></td>
+                                <td class="p-2 text-left"><%= ratings[1]%></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 w-1/2 text-left">File name</th>
+                                <th class="p-2 w-1/2 text-left">Könyvjelző db</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"><%= bookmarks[0]%></td>
+                                <td class="p-2 text-left"><%= bookmarks[1]%></td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
