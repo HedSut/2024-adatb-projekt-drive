@@ -43,6 +43,7 @@ router.get("/admin", async (req, res) => {
     const ratings = await new RatingDao().getAllRatings();
     const logs = await new LogDao().getLogs();
 
+    await new LogDao().getLogsOfTable('comment');
     return res.render("admin", {
         users: users,
         bookmarks: bookmarks,

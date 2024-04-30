@@ -81,108 +81,6 @@ CREATE TABLE "log" (
     "type" VARCHAR(10) NOT NULL
 );
 
-CREATE OR REPLACE TRIGGER "log_users"
-AFTER INSERT OR UPDATE OR DELETE ON "users"
-FOR EACH ROW
-BEGIN
-    IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', NULL, :NEW."username", NULL, NULL, 'insert');
-    ELSIF UPDATING('email') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW."username", :OLD."email", :NEW."email", 'update');
-    ELSIF UPDATING('password') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW."username", :OLD."password", :NEW."password", 'update');
-    ELSIF UPDATING('usertype') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW."username", :OLD."usertype", :NEW."usertype", 'update');
-    ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', NULL, :OLD."username", NULL, NULL, 'delete');
-    END IF;
-END;
-
-CREATE OR REPLACE TRIGGER "log_folder"
-AFTER INSERT OR UPDATE OR DELETE ON "folder"
-FOR EACH ROW
-BEGIN
-    IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, TO_CHAR(:NEW."id"), NULL, NULL, 'insert');
-    ELSIF UPDATING('folder_name') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', 'folder_name', TO_CHAR(:NEW."id"), :OLD."folder_name", :NEW."folder_name", 'update');
-    ELSIF UPDATING('visibility') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', 'visiblity', TO_CHAR(:NEW."id"), :OLD."visibility", :NEW."visibility", 'update');
-    ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, TO_CHAR(:OLD."id"), NULL, NULL, 'delete');
-    END IF;
-END;
-
-CREATE OR REPLACE TRIGGER "log_file"
-AFTER INSERT OR UPDATE OR DELETE ON "file"
-FOR EACH ROW
-BEGIN
-    IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', NULL, TO_CHAR(:NEW."id"), NULL, NULL, 'insert');
-    ELSIF UPDATING('file_name') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', 'file_name', TO_CHAR(:NEW."id"), :OLD."file_name", :NEW."file_name", 'update');
-    ELSIF UPDATING('visibility') THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', 'visiblity', TO_CHAR(:NEW."id"), :OLD."visibility", :NEW."visibility", 'update');
-    ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', NULL, TO_CHAR(:OLD."id"), NULL, NULL, 'delete');
-    END IF;
-END;
-
-CREATE OR REPLACE TRIGGER "log_comment"
-AFTER INSERT OR DELETE ON "comment"
-FOR EACH ROW
-BEGIN
-    IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('comment', NULL, TO_CHAR(:NEW."id"), NULL, NULL, 'insert');
-    ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, TO_CHAR(:OLD."id"), NULL, NULL, 'delete');
-    END IF;
-END;
-
-CREATE OR REPLACE TRIGGER "log_foldershare"
-AFTER INSERT OR DELETE ON "foldershare"
-FOR EACH ROW
-BEGIN
-    IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('foldershare', NULL, :NEW."username" || ' ' || :NEW."folderid", NULL, NULL, 'insert');
-    ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('foldershare', NULL, :OLD."username" || ' ' || :OLD."folderid", NULL, NULL, 'delete');
-    END IF;
-END;
-
-CREATE OR REPLACE TRIGGER "log_fileshare"
-AFTER INSERT OR DELETE ON "fileshare"
-FOR EACH ROW
-BEGIN
-    IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
-    ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :OLD."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
-    END IF;
-END;
-
-CREATE OR REPLACE TRIGGER "log_bookmark"
-AFTER INSERT OR DELETE ON "bookmark"
-FOR EACH ROW
-BEGIN
-    IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
-    ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :OLD."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
-    END IF;
-END;
-
-CREATE OR REPLACE TRIGGER "log_rating"
-AFTER INSERT OR DELETE ON "rating"
-FOR EACH ROW
-BEGIN
-    IF INSERTING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
-    ELSIF DELETING THEN
-        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :OLD."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
-    END IF;
-END;
-
 INSERT INTO "users" ("username", "email", "password") VALUES ('tesztelek0', 'tesztelek0@gmail.com', 'Dv3xG03h6YnydzocazTL8PicZi7jTFxABchoiHg3FKBH57f8Lf3XHPYWQlsrzxkY');
 INSERT INTO "users" ("username", "email", "password") VALUES ('tesztelek1', 'tesztelek1@gmail.com', '5DL3kfnHSIzSK7vTth65LpJ05AIJmwIF2u93Ul0gyV2MA2SwnVRgo48BtTs2hkss');
 INSERT INTO "users" ("username", "email", "password") VALUES ('tesztelek2', 'tesztelek2@gmail.com', 'aBmAQATMg1Cvr8aMOBdtwzH7A6Ys4Ppn8YLaAmp1j7nYKKIBsV9Xj0xjn2tTkJBF');
@@ -370,3 +268,132 @@ INSERT INTO "rating" ("username", "fileid", "rate") VALUES ('tesztelek1', '6', '
 INSERT INTO "rating" ("username", "fileid", "rate") VALUES ('tesztelek2', '7', '4');
 INSERT INTO "rating" ("username", "fileid", "rate") VALUES ('tesztelek3', '8', '5');
 INSERT INTO "rating" ("username", "fileid", "rate") VALUES ('tesztelek4', '9', '4');
+
+
+CREATE OR REPLACE TRIGGER "log_users"
+AFTER INSERT OR UPDATE OR DELETE ON "users"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', NULL, :NEW."username", NULL, NULL, 'insert');
+    ELSIF UPDATING('email') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW."username", :OLD."email", :NEW."email", 'update');
+    ELSIF UPDATING('password') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW."username", :OLD."password", :NEW."password", 'update');
+    ELSIF UPDATING('usertype') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', 'email', :NEW."username", :OLD."usertype", :NEW."usertype", 'update');
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('users', NULL, :OLD."username", NULL, NULL, 'delete');
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_folder"
+AFTER INSERT OR UPDATE OR DELETE ON "folder"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, TO_CHAR(:NEW."id"), NULL, NULL, 'insert');
+    ELSIF UPDATING('folder_name') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', 'folder_name', TO_CHAR(:NEW."id"), :OLD."folder_name", :NEW."folder_name", 'update');
+    ELSIF UPDATING('visibility') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', 'visiblity', TO_CHAR(:NEW."id"), :OLD."visibility", :NEW."visibility", 'update');
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, TO_CHAR(:OLD."id"), NULL, NULL, 'delete');
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_file"
+AFTER INSERT OR UPDATE OR DELETE ON "file"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', NULL, TO_CHAR(:NEW."id"), NULL, NULL, 'insert');
+    ELSIF UPDATING('file_name') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', 'file_name', TO_CHAR(:NEW."id"), :OLD."file_name", :NEW."file_name", 'update');
+    ELSIF UPDATING('visibility') THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', 'visiblity', TO_CHAR(:NEW."id"), :OLD."visibility", :NEW."visibility", 'update');
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('file', NULL, TO_CHAR(:OLD."id"), NULL, NULL, 'delete');
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_comment"
+AFTER INSERT OR DELETE ON "comment"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('comment', NULL, TO_CHAR(:NEW."id"), NULL, NULL, 'insert');
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('folder', NULL, TO_CHAR(:OLD."id"), NULL, NULL, 'delete');
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_foldershare"
+AFTER INSERT OR DELETE ON "foldershare"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('foldershare', NULL, :NEW."username" || ' ' || :NEW."folderid", NULL, NULL, 'insert');
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('foldershare', NULL, :OLD."username" || ' ' || :OLD."folderid", NULL, NULL, 'delete');
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_fileshare"
+AFTER INSERT OR DELETE ON "fileshare"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('fileshare', NULL, :OLD."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_bookmark"
+AFTER INSERT OR DELETE ON "bookmark"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('bookmark', NULL, :OLD."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER "log_rating"
+AFTER INSERT OR DELETE ON "rating"
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :NEW."username" || ' ' || :NEW."fileid", NULL, NULL, 'insert');
+    ELSIF DELETING THEN
+        INSERT INTO "log" ("table", "col", "row", "old_data", "new_data", "type") VALUES ('rating', NULL, :OLD."username" || ' ' || :NEW."fileid", NULL, NULL, 'delete');
+    END IF;
+END;
+
+create or replace PROCEDURE "print_log_table"(
+    p_cursor OUT SYS_REFCURSOR,
+    p_table_name IN VARCHAR2
+) AS
+BEGIN
+    OPEN p_cursor FOR
+        SELECT * FROM "log" WHERE "table" = p_table_name;
+END "print_log_table";
+
+------------teszteléshez------------
+/*
+SET SERVEROUTPUT ON;
+DECLARE
+    p_cursor SYS_REFCURSOR;
+    rw "log"%ROWTYPE;
+    nm VARCHAR(20) := 'file';
+BEGIN
+    "print_log_table"(p_cursor, nm); 
+    LOOP
+        FETCH p_cursor INTO rw;
+        EXIT WHEN p_cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('ID: ' || rw."id" || rw."table" || ' ' || rw."old_data" || ' ' || rw."new_data");
+    END LOOP;
+END;
+*/
