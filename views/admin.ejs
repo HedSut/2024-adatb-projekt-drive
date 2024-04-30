@@ -48,6 +48,10 @@
                         class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
                         <p class="text-center font-bold text-lg">Felhasználók</p>
                     </div>
+                    <div onclick="openMenu('logTable')"
+                    class="flex justify-center items-center p-5 h-20 hover:bg-gray-200 transition-colors duration-300 cursor-pointer">
+                    <p class="text-center font-bold text-lg">Felhasználók</p>
+                </div>
                 </div>
 
                 <div id="bookmarkTable" class="w-4/5">
@@ -116,7 +120,7 @@
                                 <td class="p-2 text-left"><%=files[i][2]%></a></td>
                                 <td class="p-2 text-left"><%=files[i][3]%></td>
                                 <td class="p-2 text-left"><%=files[i][4]%></td>
-                                <td class="p-2 text-left"><%=new Date(comments[i][4]).toLocaleString('default', {
+                                <td class="p-2 text-left"><%=new Date(files[i][4]).toLocaleString('default', {
                                     year: 'numeric' , month: 'long' , day: '2-digit' , hour: '2-digit' ,
                                     minute: '2-digit' , second: '2-digit' })%></td>
                             </tr>
@@ -233,6 +237,36 @@
                             </tr>
                             <% } %>
                         </tbody>
+                    </table>
+                </div>
+
+                <div id="logTable" class="hidden w-4/5">
+                    <table class="mt-20 table-auto rounded-t-md shadow w-full">
+                        <thead class="h-10 rounded-t-md ">
+                            <tr>
+                                <th class="p-2 text-left">Felhasználónév</th>
+                                <th class="p-2 text-left">Email cím</th>
+                                <th class="p-2 text-left">Jelszó</th>
+                                <th class="p-2 text-left">Típus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                        <!--
+                        <tbody>
+                            <tr class="bg-gray-400">
+                                <td class="p-2 text-left"></td>
+                                <td class="p-2 text-left"></td>
+                                <td class="p-2 text-left"></td>
+                                <td class="p-2 text-left"></td>
+                            </tr>
+                        </tbody>
+                        -->
                     </table>
                 </div>
             </div>
