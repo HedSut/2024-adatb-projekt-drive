@@ -70,6 +70,7 @@
 					<% } %>
 				</div>
 
+				<% if (type == "normal" || type == "root") {%>
 				<form class="flex flex-col" action="/uploadfile" method="post" enctype="multipart/form-data">
 					<div class="flex w-full">
 						<input name="uploadedFile" type="file" class="w-full cursor-pointer mt-3 mb-3 rounded-md font-bold
@@ -85,7 +86,7 @@
 					</button>
 				</form>
 
-				<% if (type == "normal") {%>
+
 				<form class="flex flex-row mt-5" action="/addshare" method="post">
 					<input type="hidden" name="type" value="folder">
 					<input type="hidden" name="currentFolder" value="<%= currentFolder[0] %>">
