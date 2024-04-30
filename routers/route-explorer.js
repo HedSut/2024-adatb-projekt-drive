@@ -67,11 +67,11 @@ router.get("/explorer/:id", async (req, res) => {
         const sharedfiles =  await new FileshareDao().getUserFileshares(username);
         const sharedfolders = await new FolderShareDao().getUserFoldershares(username);
         for (let i = 0; i < sharedfiles.length; i++) {
-            files.push(await new FileDao().getFile(sharedfiles[i]));
+            files.push(await new FileDao().getFile(sharedfiles[i][1]));
         }
 
         for (let i = 0; i < sharedfolders.length; i++) {
-            folders.push(await new FolderDao().getFolder(sharedfolders[i]));
+            folders.push(await new FolderDao().getFolder(sharedfolders[i][1]));
         }
 
         return res.render("explorer", {
