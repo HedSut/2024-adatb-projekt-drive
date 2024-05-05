@@ -372,14 +372,29 @@ BEGIN
     END IF;
 END;
 
-create or replace PROCEDURE "print_log_table"(
-    p_cursor OUT SYS_REFCURSOR,
-    p_table_name IN VARCHAR2
-) AS
+create or replace FUNCTION get_files_with_likes(n NUMBER)
+RETURN SYS_REFCURSOR IS
+    v_cursor SYS_REFCURSOR;
 BEGIN
-    OPEN p_cursor FOR
-        SELECT * FROM "log" WHERE "table" = p_table_name;
-END "print_log_table";
+    OPEN v_cursor FOR
+        SELECT "rating"."fileid", SUM("rating"."rate"), "file"."file_name" -- Fetch specific columns from both tables
+        FROM "rating" INNER JOIN "file" ON "file"."id" = "rating"."fileid"
+        GROUP BY "rating"."fileid" -- Group by to count likes per file
+        HAVING SUM("rating"."rate") >= n; -- Filter files with at least n likes
+    RETURN v_cursor;
+END;
+/
+
+create or replace FUNCTION find_comments(p_search_string VARCHAR2)
+RETURN SYS_REFCURSOR IS
+    v_cursor SYS_REFCURSOR;
+BEGIN
+    OPEN v_cursor FOR
+        SELECT "comment_text"  -- Adjust this to match the columns you want to return
+        FROM "comment"
+        WHERE "comment_text" LIKE '%' || p_search_string || '%';
+    RETURN v_cursor;
+END;
 
 ------------teszteléshez------------
 /*
