@@ -51,6 +51,27 @@ class RatingDao {
         return result.rows[0];
     }
 
+    async filterRating(num) {
+        let con = await oracledb.getConnection();
+
+        const bindVars = {
+            num: { dir: oracledb.BIND_IN, type: oracledb.NUMBER, val: parseInt(num) },
+            cursor: { dir: oracledb.BIND_OUT, type: oracledb.CURSOR }
+        };
+
+        let result = await con.execute(
+            `BEGIN
+                :cursor := get_files_with_likes(:num);
+            END;`,
+            bindVars
+        );
+
+        let resultSet = result.outBinds.cursor._rowCache;
+        console.log("cucc: " + resultSet);
+        con.close();
+        return resultSet
+    }
+
     async updateRating(username, fileid, rating) {
         let con = await oracledb.getConnection();
         let result = await con.execute(

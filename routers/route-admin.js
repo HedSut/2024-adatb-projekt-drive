@@ -13,6 +13,7 @@ const RatingDao = require("../dao/rating-dao");
 const LogDao = require("../dao/log-dao");
 const ComplexDao = require("../dao/complex-dao");
 
+let filteredRatings = [];
 router.get("/admin", async (req, res) => {
     const token = req.cookies.jwt;
     const msg = req.cookies.msg;
@@ -67,6 +68,34 @@ router.get("/admin", async (req, res) => {
         bookmarkStats: bookmarkStats
     });
 })
+
+router.get("/filtercomment", async (req, res) => {
+});
+
+router.post("/filterrating", async (req, res) => {
+    const token = req.cookies.jwt;
+    const msg = req.cookies.msg;
+    let { num } = req.body;
+    var username;
+
+    if (token) {
+        jwt.verify(token, secret, (err, decodedToken) => {
+            username = decodedToken.username;
+        });
+    }
+
+    const user = await new UserDao().getUser(username);
+    if (user[3] != "admin") {
+        res.cookie("msg", "Nincs jogod megtekinteni ezt az oldalt!", {
+            httpOnly: true,
+            maxAge: 1000,
+        });
+        return res.redirect("/");
+    }
+
+    result = await new RatingDao().filterRating(num);
+    res.redirect("/admin");
+});
 
 
 module.exports = router;
