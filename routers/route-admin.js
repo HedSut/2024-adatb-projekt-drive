@@ -48,6 +48,8 @@ router.get("/admin", async (req, res) => {
     const foldershareStats = await new ComplexDao().getFoldershareStats();
     const ratingStats = await new ComplexDao().getFileRatingStats();
     const bookmarkStats = await new ComplexDao().getFileBookmarkStats();
+    const folderStats = await new ComplexDao().getFolderStats();
+    const childFolderStats = await new ComplexDao().getChildfolderStats();
 
     //await new LogDao().getLogsOfTable('comment');
     return res.render("admin", {
@@ -65,7 +67,9 @@ router.get("/admin", async (req, res) => {
         fileshareStats: fileshareStats,
         foldershareStats: foldershareStats,
         ratingStats: ratingStats,
-        bookmarkStats: bookmarkStats
+        bookmarkStats: bookmarkStats,
+        folderStats: folderStats,
+        childFolderStats: childFolderStats
     });
 })
 
